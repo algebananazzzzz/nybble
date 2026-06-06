@@ -1,0 +1,63 @@
+# GoReleaser config — https://goreleaser.com
+# Builds the `canteen` CLI for macOS (arm64 + amd64) and publishes a GitHub Release.
+version: 2
+
+project_name: canteen
+
+builds:
+  - id: canteen
+    main: ./cmd/canteen
+    binary: canteen
+    flags:
+      - -trimpath
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+    goarch:
+      - arm64
+      - amd64
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+
+archives:
+  - id: canteen
+    formats: [tar.gz]
+    name_template: "canteen_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - README.md
+      - LICENSE*
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  use: git
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "Merge pull request"
+      - "Merge branch"
+  groups:
+    - title: Features
+      regexp: '^feat'
+      order: 0
+    - title: Fixes
+      regexp: '^fix'
+      order: 1
+    - title: Others
+      order: 999
+
+release:
+  github:
+    owner: algebananazzzzz
+    name: bytecanteen
+  draft: false
+  prerelease: auto
+  name_template: "{{ .Tag }}"

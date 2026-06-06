@@ -1,0 +1,22 @@
+# secrets — live SSO session + deployment endpoints, NEVER commit
+.auth/
+*cookies*.json
+config/cookies.json
+.env
+.env.*
+!.env.example
+
+# go build artifacts
+/canteen
+/dist/
+*.test
+*.out
+
+# playwright-cli scratch
+.playwright-cli/
+
+# internal R&D notes — never publish (deployment-specific details)
+docs/superpowers/
+
+# os
+.DS_Store

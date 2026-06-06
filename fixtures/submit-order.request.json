@@ -1,0 +1,20 @@
+{
+ "orders": [
+  {
+   "openId": "<REDACTED>",
+   "tenantEmpId": "<REDACTED>",
+   "unionId": "<REDACTED>",
+   "buildingName": "Example Tower",
+   "labelMealCode": "IOTE_0001",
+   "skuCode": "9d84a4d02064ac4a6a3e0506b0a94658",
+   "buildingCode": "BLDG00000001",
+   "mealDate": "2026-06-10",
+   "mealType": "lunch",
+   "pickupAddressCode": 1185,
+   "pickupAddressName": "Pickup Point",
+   "mealStartTime": "12:00",
+   "mealEndTime": "14:00",
+   "foodName": "Gyushi - Mala Gyudon"
+  }
+ ]
+}

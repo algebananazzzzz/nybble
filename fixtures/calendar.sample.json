@@ -1,0 +1,311 @@
+{
+ "code": 200,
+ "data": {
+  "hasNextWorkingDay": true,
+  "nextWorkingDay": "2026-06-05",
+  "currentDay": "2026-06-05 11:47:43",
+  "currentMealType": "lunch",
+  "dates": [
+   {
+    "date": "2026-05-31",
+    "isBold": false,
+    "weekDay": "周日",
+    "weekDayInt": 0,
+    "isHistory": true,
+    "canReserve": false,
+    "shouldShowMenu": false,
+    "displayMsgs": [
+     "The ordering deadline has passed."
+    ],
+    "buttonToast": "The ordering deadline has passed.",
+    "hadReserveLunch": false,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-01",
+    "isBold": false,
+    "weekDay": "周一",
+    "weekDayInt": 1,
+    "isHistory": true,
+    "canReserve": false,
+    "shouldShowMenu": false,
+    "displayMsgs": [
+     "The ordering deadline has passed."
+    ],
+    "buttonToast": "The ordering deadline has passed.",
+    "hadReserveLunch": false,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-02",
+    "isBold": true,
+    "weekDay": "周二",
+    "weekDayInt": 2,
+    "isHistory": true,
+    "canReserve": false,
+    "shouldShowMenu": false,
+    "displayMsgs": [
+     "The ordering deadline has passed."
+    ],
+    "buttonToast": "The ordering deadline has passed.",
+    "hadReserveLunch": true,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-03",
+    "isBold": true,
+    "weekDay": "周三",
+    "weekDayInt": 3,
+    "isHistory": true,
+    "canReserve": false,
+    "shouldShowMenu": false,
+    "displayMsgs": [
+     "The ordering deadline has passed."
+    ],
+    "buttonToast": "The ordering deadline has passed.",
+    "hadReserveLunch": true,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-04",
+    "isBold": true,
+    "weekDay": "周四",
+    "weekDayInt": 4,
+    "isHistory": true,
+    "canReserve": false,
+    "shouldShowMenu": false,
+    "displayMsgs": [
+     "The ordering deadline has passed."
+    ],
+    "buttonToast": "The ordering deadline has passed.",
+    "hadReserveLunch": true,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-05",
+    "isBold": true,
+    "weekDay": "周五",
+    "weekDayInt": 5,
+    "isHistory": false,
+    "canReserve": true,
+    "shouldShowMenu": true,
+    "displayMsgs": null,
+    "buttonToast": "",
+    "hadReserveLunch": true,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-06",
+    "isBold": false,
+    "weekDay": "周六",
+    "weekDayInt": 6,
+    "isHistory": false,
+    "canReserve": true,
+    "shouldShowMenu": true,
+    "displayMsgs": null,
+    "buttonToast": "",
+    "hadReserveLunch": false,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-07",
+    "isBold": false,
+    "weekDay": "周日",
+    "weekDayInt": 0,
+    "isHistory": false,
+    "canReserve": true,
+    "shouldShowMenu": true,
+    "displayMsgs": null,
+    "buttonToast": "",
+    "hadReserveLunch": false,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-08",
+    "isBold": true,
+    "weekDay": "周一",
+    "weekDayInt": 1,
+    "isHistory": false,
+    "canReserve": true,
+    "shouldShowMenu": true,
+    "displayMsgs": null,
+    "buttonToast": "",
+    "hadReserveLunch": true,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-09",
+    "isBold": true,
+    "weekDay": "周二",
+    "weekDayInt": 2,
+    "isHistory": false,
+    "canReserve": true,
+    "shouldShowMenu": true,
+    "displayMsgs": null,
+    "buttonToast": "",
+    "hadReserveLunch": true,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-10",
+    "isBold": true,
+    "weekDay": "周三",
+    "weekDayInt": 3,
+    "isHistory": false,
+    "canReserve": true,
+    "shouldShowMenu": true,
+    "displayMsgs": null,
+    "buttonToast": "",
+    "hadReserveLunch": true,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-11",
+    "isBold": true,
+    "weekDay": "周四",
+    "weekDayInt": 4,
+    "isHistory": false,
+    "canReserve": true,
+    "shouldShowMenu": true,
+    "displayMsgs": null,
+    "buttonToast": "",
+    "hadReserveLunch": true,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-12",
+    "isBold": true,
+    "weekDay": "周五",
+    "weekDayInt": 5,
+    "isHistory": false,
+    "canReserve": true,
+    "shouldShowMenu": true,
+    "displayMsgs": null,
+    "buttonToast": "",
+    "hadReserveLunch": true,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-13",
+    "isBold": false,
+    "weekDay": "周六",
+    "weekDayInt": 6,
+    "isHistory": false,
+    "canReserve": true,
+    "shouldShowMenu": true,
+    "displayMsgs": null,
+    "buttonToast": "",
+    "hadReserveLunch": false,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-14",
+    "isBold": false,
+    "weekDay": "周日",
+    "weekDayInt": 0,
+    "isHistory": false,
+    "canReserve": false,
+    "shouldShowMenu": false,
+    "displayMsgs": [
+     "The ordering service is not available on this date."
+    ],
+    "buttonToast": "The ordering service is not available on this date.",
+    "hadReserveLunch": false,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-15",
+    "isBold": false,
+    "weekDay": "周一",
+    "weekDayInt": 1,
+    "isHistory": false,
+    "canReserve": false,
+    "shouldShowMenu": false,
+    "displayMsgs": [
+     "The ordering service is not available on this date."
+    ],
+    "buttonToast": "The ordering service is not available on this date.",
+    "hadReserveLunch": false,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-16",
+    "isBold": false,
+    "weekDay": "周二",
+    "weekDayInt": 2,
+    "isHistory": false,
+    "canReserve": false,
+    "shouldShowMenu": false,
+    "displayMsgs": [
+     "The ordering service is not available on this date."
+    ],
+    "buttonToast": "The ordering service is not available on this date.",
+    "hadReserveLunch": false,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-17",
+    "isBold": false,
+    "weekDay": "周三",
+    "weekDayInt": 3,
+    "isHistory": false,
+    "canReserve": false,
+    "shouldShowMenu": false,
+    "displayMsgs": [
+     "The ordering service is not available on this date."
+    ],
+    "buttonToast": "The ordering service is not available on this date.",
+    "hadReserveLunch": false,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-18",
+    "isBold": false,
+    "weekDay": "周四",
+    "weekDayInt": 4,
+    "isHistory": false,
+    "canReserve": false,
+    "shouldShowMenu": false,
+    "displayMsgs": [
+     "The ordering service is not available on this date."
+    ],
+    "buttonToast": "The ordering service is not available on this date.",
+    "hadReserveLunch": false,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-19",
+    "isBold": false,
+    "weekDay": "周五",
+    "weekDayInt": 5,
+    "isHistory": false,
+    "canReserve": false,
+    "shouldShowMenu": false,
+    "displayMsgs": [
+     "The ordering service is not available on this date."
+    ],
+    "buttonToast": "The ordering service is not available on this date.",
+    "hadReserveLunch": false,
+    "hadReserveDinner": false
+   },
+   {
+    "date": "2026-06-20",
+    "isBold": false,
+    "weekDay": "周六",
+    "weekDayInt": 6,
+    "isHistory": false,
+    "canReserve": false,
+    "shouldShowMenu": false,
+    "displayMsgs": [
+     "The ordering service is not available on this date."
+    ],
+    "buttonToast": "The ordering service is not available on this date.",
+    "hadReserveLunch": false,
+    "hadReserveDinner": false
+   }
+  ]
+ },
+ "message": "success",
+ "timestamp": 1780631263912,
+ "messageKey": ""
+}

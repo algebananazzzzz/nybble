@@ -1,0 +1,861 @@
+{
+ "code": 200,
+ "data": {
+  "hadOrdered": true,
+  "mutexType": "INNER_ORDER",
+  "mutexTime": "",
+  "orderId": "S20260604003302",
+  "cancelLimitedTime": "2026-06-10 10:30:00",
+  "orderLimitedTime": "2026-06-10 10:30:00",
+  "releaseOrderLimitedTime": "2026-06-10 13:55:00",
+  "menuSites": [
+   {
+    "siteId": 1185,
+    "siteLabel": "Pickup Point",
+    "displayOrder": 0,
+    "items": [
+     {
+      "id": 225070,
+      "skuCode": "9d84a4d02064ac4a6a3e0506b0a94658",
+      "specification": "Sliced beef, Japanese rice, onions, garlic, mala soy sauce, mala chili oil.",
+      "name": "<REDACTED>",
+      "dishData": {
+       "imageUrl": "https://images.example.com/dea44012cb0f40509c0fcae772da3637~tplv-shg55yqiqz-1-v1",
+       "name": "<REDACTED>",
+       "code": "757467",
+       "description": "Sliced beef, Japanese rice, onions, garlic, mala soy sauce, mala chili oil.",
+       "ingredients": "Sliced Beef, Japanese Rice, Onions, Garlic, Mala Soy Sauce, Mala Chili Oil.",
+       "religiousPracticesEn": null,
+       "religiousPracticesCn": null,
+       "dietaryPreferencesEn": null,
+       "dietaryPreferencesCn": null,
+       "allergensEn": [
+        "Alliums",
+        "Dairy",
+        "Egg",
+        "Gluten",
+        "Soy"
+       ],
+       "allergensCn": [
+        "麸质",
+        "乳制品",
+        "大豆",
+        "葱属",
+        "蛋类"
+       ],
+       "allergensCd": [
+        "TC_0000201",
+        "TC_0000202",
+        "TC_0000207",
+        "TC_0000218",
+        "TC_0000203"
+       ],
+       "flavorProfileEn": null,
+       "flavorProfileCn": null,
+       "proteinTypeEn": null,
+       "proteinTypeCn": null,
+       "cuisineEn": "East Asian (non-Chinese)",
+       "cuisineCn": "东亚菜（非中餐）",
+       "servingTemperatureEn": "",
+       "servingTemperatureCn": "",
+       "restaurantName": null,
+       "spiciness": 2,
+       "weight": 0,
+       "calories": 0,
+       "protein": 0,
+       "carbohydrates": 0,
+       "fat": 0,
+       "fiber": 0,
+       "sodium": 0
+      },
+      "previewImage": "https://images.example.com/dea44012cb0f40509c0fcae772da3637~tplv-shg55yqiqz-1-v1",
+      "currentStock": 0,
+      "totalStock": 15,
+      "labelMealCode": "IOTE_0001",
+      "pickupAddress": "Pickup Point",
+      "pickupAddressId": 1185,
+      "region": "sg",
+      "buildingCode": "BLDG00000001",
+      "mealDate": "2026-06-10",
+      "mealType": "lunch",
+      "mealStartTime": "12:00",
+      "mealEndTime": "14:00",
+      "reservedItemsPickedUp": 0,
+      "reservedItemsPendingPickup": 0,
+      "attributes": {
+       "dietaryRequirements": [],
+       "religiousPractices": null,
+       "dietaryPreferences": null,
+       "allergens": [
+        "TC_0000201",
+        "TC_0000202",
+        "TC_0000207",
+        "TC_0000218",
+        "TC_0000203"
+       ],
+       "cuisines": null,
+       "proteinTypes": null,
+       "spiceLevels": [
+        "2_MEDIUM_SPICY"
+       ]
+      },
+      "userPreferenceMatch": {
+       "isMatched": false,
+       "reasons": null
+      }
+     },
+     {
+      "id": 225071,
+      "skuCode": "20b3a56623be8fc786ae4cafc98c7d36",
+      "specification": "Sliced Beef, Japanese Rice, Onions, Mentaiko (Cod Roe) Sauce.",
+      "name": "<REDACTED>",
+      "dishData": {
+       "imageUrl": "https://images.example.com/31152cbdc64c4d1a8ed0c0b59424c99e~tplv-shg55yqiqz-1-v1",
+       "name": "<REDACTED>",
+       "code": "757468",
+       "description": "Sliced Beef, Japanese Rice, Onions, Mentaiko (Cod Roe) Sauce.",
+       "ingredients": "Sliced Beef, Japanese Rice, Onions, Mentaiko (Cod Roe) Sauce.",
+       "religiousPracticesEn": null,
+       "religiousPracticesCn": null,
+       "dietaryPreferencesEn": null,
+       "dietaryPreferencesCn": null,
+       "allergensEn": [
+        "Alliums",
+        "Dairy",
+        "Egg",
+        "Fish",
+        "Gluten",
+        "Soy"
+       ],
+       "allergensCn": [
+        "麸质",
+        "乳制品",
+        "大豆",
+        "葱属",
+        "鱼类",
+        "蛋类"
+       ],
+       "allergensCd": [
+        "TC_0000201",
+        "TC_0000202",
+        "TC_0000207",
+        "TC_0000218",
+        "TC_0000206",
+        "TC_0000203"
+       ],
+       "flavorProfileEn": null,
+       "flavorProfileCn": null,
+       "proteinTypeEn": null,
+       "proteinTypeCn": null,
+       "cuisineEn": "East Asian (non-Chinese)",
+       "cuisineCn": "东亚菜（非中餐）",
+       "servingTemperatureEn": "",
+       "servingTemperatureCn": "",
+       "restaurantName": null,
+       "spiciness": 1,
+       "weight": 0,
+       "calories": 0,
+       "protein": 0,
+       "carbohydrates": 0,
+       "fat": 0,
+       "fiber": 0,
+       "sodium": 0
+      },
+      "previewImage": "https://images.example.com/31152cbdc64c4d1a8ed0c0b59424c99e~tplv-shg55yqiqz-1-v1",
+      "currentStock": 0,
+      "totalStock": 13,
+      "labelMealCode": "IOTE_0001",
+      "pickupAddress": "Pickup Point",
+      "pickupAddressId": 1185,
+      "region": "sg",
+      "buildingCode": "BLDG00000001",
+      "mealDate": "2026-06-10",
+      "mealType": "lunch",
+      "mealStartTime": "12:00",
+      "mealEndTime": "14:00",
+      "reservedItemsPickedUp": 0,
+      "reservedItemsPendingPickup": 0,
+      "attributes": {
+       "dietaryRequirements": [],
+       "religiousPractices": null,
+       "dietaryPreferences": null,
+       "allergens": [
+        "TC_0000201",
+        "TC_0000202",
+        "TC_0000207",
+        "TC_0000218",
+        "TC_0000206",
+        "TC_0000203"
+       ],
+       "cuisines": null,
+       "proteinTypes": null,
+       "spiceLevels": [
+        "1_MILD_SPICY"
+       ]
+      },
+      "userPreferenceMatch": {
+       "isMatched": false,
+       "reasons": null
+      }
+     },
+     {
+      "id": 225072,
+      "skuCode": "8b7324da45ce7ecd9ee9fe16ed198513",
+      "specification": "Original Chickenjoy, Signature Brown Sauce, Spaghetti",
+      "name": "<REDACTED>",
+      "dishData": {
+       "imageUrl": "https://images.example.com/afaac292736044498bdc9745389faf6f~tplv-shg55yqiqz-1-v1",
+       "name": "<REDACTED>",
+       "code": "693266",
+       "description": "Original Chickenjoy, Signature Brown Sauce, Spaghetti",
+       "ingredients": "Original Chickenjoy, Signature Brown Sauce, Spaghetti",
+       "religiousPracticesEn": [
+        "Halal"
+       ],
+       "religiousPracticesCn": [
+        "清真"
+       ],
+       "dietaryPreferencesEn": null,
+       "dietaryPreferencesCn": null,
+       "allergensEn": [
+        "Alliums",
+        "Crustaceans",
+        "Dairy",
+        "Egg",
+        "Fish",
+        "Gluten",
+        "Mollusks(Molluscs)",
+        "Peanuts",
+        "Soy",
+        "Sulphites",
+        "Tree nuts"
+       ],
+       "allergensCn": [
+        "麸质",
+        "乳制品",
+        "蛋类",
+        "鱼类",
+        "大豆",
+        "软体动物",
+        "树坚果",
+        "花生",
+        "虾蟹类",
+        "亚硫酸盐",
+        "葱属"
+       ],
+       "allergensCd": [
+        "TC_0000201",
+        "TC_0000202",
+        "TC_0000203",
+        "TC_0000206",
+        "TC_0000207",
+        "TC_0000208",
+        "TC_0000209",
+        "TC_0000210",
+        "TC_0000215",
+        "TC_0000216",
+        "TC_0000218"
+       ],
+       "flavorProfileEn": null,
+       "flavorProfileCn": null,
+       "proteinTypeEn": null,
+       "proteinTypeCn": null,
+       "cuisineEn": "American/Western",
+       "cuisineCn": "西餐",
+       "servingTemperatureEn": "",
+       "servingTemperatureCn": "",
+       "restaurantName": null,
+       "spiciness": 0,
+       "weight": 0,
+       "calories": 0,
+       "protein": 0,
+       "carbohydrates": 0,
+       "fat": 0,
+       "fiber": 0,
+       "sodium": 0
+      },
+      "previewImage": "https://images.example.com/afaac292736044498bdc9745389faf6f~tplv-shg55yqiqz-1-v1",
+      "currentStock": 0,
+      "totalStock": 25,
+      "labelMealCode": "IOTE_0001",
+      "pickupAddress": "Pickup Point",
+      "pickupAddressId": 1185,
+      "region": "sg",
+      "buildingCode": "BLDG00000001",
+      "mealDate": "2026-06-10",
+      "mealType": "lunch",
+      "mealStartTime": "12:00",
+      "mealEndTime": "14:00",
+      "reservedItemsPickedUp": 0,
+      "reservedItemsPendingPickup": 0,
+      "attributes": {
+       "dietaryRequirements": [
+        "TC_0000100"
+       ],
+       "religiousPractices": [
+        "TC_0000100"
+       ],
+       "dietaryPreferences": null,
+       "allergens": [
+        "TC_0000201",
+        "TC_0000202",
+        "TC_0000203",
+        "TC_0000206",
+        "TC_0000207",
+        "TC_0000208",
+        "TC_0000209",
+        "TC_0000210",
+        "TC_0000215",
+        "TC_0000216",
+        "TC_0000218"
+       ],
+       "cuisines": null,
+       "proteinTypes": null,
+       "spiceLevels": null
+      },
+      "userPreferenceMatch": {
+       "isMatched": false,
+       "reasons": null
+      }
+     },
+     {
+      "id": 225073,
+      "skuCode": "67f8e70d47240403fcc73cf407c41c21",
+      "specification": "Original Chickenjoy, Signature Brown Sauce, Rice, Mash Potatoes",
+      "name": "<REDACTED>",
+      "dishData": {
+       "imageUrl": "https://images.example.com/a2c3981fbbe74596af6d5401cbafdc3d~tplv-shg55yqiqz-1-v1",
+       "name": "<REDACTED>",
+       "code": "693272",
+       "description": "Original Chickenjoy, Signature Brown Sauce, Rice, Mash Potatoes",
+       "ingredients": "Original Chickenjoy, Signature Brown Sauce, Rice, Mash Potatoes",
+       "religiousPracticesEn": [
+        "Halal"
+       ],
+       "religiousPracticesCn": [
+        "清真"
+       ],
+       "dietaryPreferencesEn": null,
+       "dietaryPreferencesCn": null,
+       "allergensEn": [
+        "Alliums",
+        "Crustaceans",
+        "Dairy",
+        "Egg",
+        "Fish",
+        "Gluten",
+        "Mollusks(Molluscs)",
+        "Peanuts",
+        "Soy",
+        "Sulphites",
+        "Tree nuts"
+       ],
+       "allergensCn": [
+        "麸质",
+        "乳制品",
+        "蛋类",
+        "鱼类",
+        "大豆",
+        "软体动物",
+        "树坚果",
+        "花生",
+        "亚硫酸盐",
+        "虾蟹类",
+        "葱属"
+       ],
+       "allergensCd": [
+        "TC_0000201",
+        "TC_0000202",
+        "TC_0000203",
+        "TC_0000206",
+        "TC_0000207",
+        "TC_0000208",
+        "TC_0000209",
+        "TC_0000210",
+        "TC_0000216",
+        "TC_0000215",
+        "TC_0000218"
+       ],
+       "flavorProfileEn": null,
+       "flavorProfileCn": null,
+       "proteinTypeEn": null,
+       "proteinTypeCn": null,
+       "cuisineEn": "American/Western",
+       "cuisineCn": "西餐",
+       "servingTemperatureEn": "",
+       "servingTemperatureCn": "",
+       "restaurantName": null,
+       "spiciness": 0,
+       "weight": 0,
+       "calories": 0,
+       "protein": 0,
+       "carbohydrates": 0,
+       "fat": 0,
+       "fiber": 0,
+       "sodium": 0
+      },
+      "previewImage": "https://images.example.com/a2c3981fbbe74596af6d5401cbafdc3d~tplv-shg55yqiqz-1-v1",
+      "currentStock": 0,
+      "totalStock": 10,
+      "labelMealCode": "IOTE_0001",
+      "pickupAddress": "Pickup Point",
+      "pickupAddressId": 1185,
+      "region": "sg",
+      "buildingCode": "BLDG00000001",
+      "mealDate": "2026-06-10",
+      "mealType": "lunch",
+      "mealStartTime": "12:00",
+      "mealEndTime": "14:00",
+      "reservedItemsPickedUp": 0,
+      "reservedItemsPendingPickup": 0,
+      "attributes": {
+       "dietaryRequirements": [
+        "TC_0000100"
+       ],
+       "religiousPractices": [
+        "TC_0000100"
+       ],
+       "dietaryPreferences": null,
+       "allergens": [
+        "TC_0000201",
+        "TC_0000202",
+        "TC_0000203",
+        "TC_0000206",
+        "TC_0000207",
+        "TC_0000208",
+        "TC_0000209",
+        "TC_0000210",
+        "TC_0000216",
+        "TC_0000215",
+        "TC_0000218"
+       ],
+       "cuisines": null,
+       "proteinTypes": null,
+       "spiceLevels": null
+      },
+      "userPreferenceMatch": {
+       "isMatched": false,
+       "reasons": null
+      }
+     },
+     {
+      "id": 225074,
+      "skuCode": "a24651e594d091cb9b873095692a2c89",
+      "specification": "White Rice, Beef Rendang, Eggplant with Chili Sauce, Fried Potato Cakes, and Chili Paste.",
+      "name": "<REDACTED>",
+      "dishData": {
+       "imageUrl": "https://images.example.com/8778aea70aa849139c8338d47816bde3~tplv-shg55yqiqz-1-v1",
+       "name": "<REDACTED>",
+       "code": "746870",
+       "description": "White Rice, Beef Rendang, Eggplant with Chili Sauce, Fried Potato Cakes, and Chili Paste.",
+       "ingredients": "White Rice, Beef Rendang, Eggplant with Chili Sauce, Fried Potato Cakes, and Chili Paste.",
+       "religiousPracticesEn": [
+        "Halal"
+       ],
+       "religiousPracticesCn": [
+        "清真"
+       ],
+       "dietaryPreferencesEn": null,
+       "dietaryPreferencesCn": null,
+       "allergensEn": [
+        "Alliums",
+        "Crustaceans",
+        "Egg",
+        "Fish",
+        "Gluten",
+        "Soy",
+        "Sulphites",
+        "Tree nuts"
+       ],
+       "allergensCn": [
+        "虾蟹类",
+        "蛋类",
+        "麸质",
+        "鱼类",
+        "大豆",
+        "树坚果",
+        "葱属",
+        "亚硫酸盐"
+       ],
+       "allergensCd": [
+        "TC_0000215",
+        "TC_0000203",
+        "TC_0000201",
+        "TC_0000206",
+        "TC_0000207",
+        "TC_0000209",
+        "TC_0000218",
+        "TC_0000216"
+       ],
+       "flavorProfileEn": null,
+       "flavorProfileCn": null,
+       "proteinTypeEn": null,
+       "proteinTypeCn": null,
+       "cuisineEn": "Southeast Asian",
+       "cuisineCn": "东南亚菜",
+       "servingTemperatureEn": "",
+       "servingTemperatureCn": "",
+       "restaurantName": null,
+       "spiciness": 1,
+       "weight": 0,
+       "calories": 0,
+       "protein": 0,
+       "carbohydrates": 0,
+       "fat": 0,
+       "fiber": 0,
+       "sodium": 0
+      },
+      "previewImage": "https://images.example.com/8778aea70aa849139c8338d47816bde3~tplv-shg55yqiqz-1-v1",
+      "currentStock": 0,
+      "totalStock": 15,
+      "labelMealCode": "IOTE_0001",
+      "pickupAddress": "Pickup Point",
+      "pickupAddressId": 1185,
+      "region": "sg",
+      "buildingCode": "BLDG00000001",
+      "mealDate": "2026-06-10",
+      "mealType": "lunch",
+      "mealStartTime": "12:00",
+      "mealEndTime": "14:00",
+      "reservedItemsPickedUp": 0,
+      "reservedItemsPendingPickup": 0,
+      "attributes": {
+       "dietaryRequirements": [
+        "TC_0000100"
+       ],
+       "religiousPractices": [
+        "TC_0000100"
+       ],
+       "dietaryPreferences": null,
+       "allergens": [
+        "TC_0000215",
+        "TC_0000203",
+        "TC_0000201",
+        "TC_0000206",
+        "TC_0000207",
+        "TC_0000209",
+        "TC_0000218",
+        "TC_0000216"
+       ],
+       "cuisines": null,
+       "proteinTypes": null,
+       "spiceLevels": [
+        "1_MILD_SPICY"
+       ]
+      },
+      "userPreferenceMatch": {
+       "isMatched": false,
+       "reasons": null
+      }
+     },
+     {
+      "id": 225075,
+      "skuCode": "4488b079dee0be8a41b620d318ecbf9b",
+      "specification": "White Rice, Squid and Prawns in Spicy Chili Sauce, Sambal Eggplant, Fried Potato Cakes (Patties), Spicy Chili Paste",
+      "name": "<REDACTED>",
+      "dishData": {
+       "imageUrl": "https://images.example.com/c78dd762d2864faabc8470f3ad028637~tplv-shg55yqiqz-1-v1",
+       "name": "<REDACTED>",
+       "code": "746871",
+       "description": "White Rice, Squid and Prawns in Spicy Chili Sauce, Sambal Eggplant, Fried Potato Cakes (Patties), Spicy Chili Paste",
+       "ingredients": "White Rice, Squid and Prawns in Spicy Chili Sauce, Sambal Eggplant, Fried Potato Cakes (Patties), Spicy Chili Paste",
+       "religiousPracticesEn": [
+        "Halal"
+       ],
+       "religiousPracticesCn": [
+        "清真"
+       ],
+       "dietaryPreferencesEn": null,
+       "dietaryPreferencesCn": null,
+       "allergensEn": [
+        "Alliums",
+        "Crustaceans",
+        "Egg",
+        "Fish",
+        "Gluten",
+        "Mollusks(Molluscs)",
+        "Soy",
+        "Sulphites"
+       ],
+       "allergensCn": [
+        "虾蟹类",
+        "蛋类",
+        "麸质",
+        "葱属",
+        "软体动物",
+        "大豆",
+        "鱼类",
+        "亚硫酸盐"
+       ],
+       "allergensCd": [
+        "TC_0000215",
+        "TC_0000203",
+        "TC_0000201",
+        "TC_0000218",
+        "TC_0000208",
+        "TC_0000207",
+        "TC_0000206",
+        "TC_0000216"
+       ],
+       "flavorProfileEn": null,
+       "flavorProfileCn": null,
+       "proteinTypeEn": null,
+       "proteinTypeCn": null,
+       "cuisineEn": "Southeast Asian",
+       "cuisineCn": "东南亚菜",
+       "servingTemperatureEn": "",
+       "servingTemperatureCn": "",
+       "restaurantName": null,
+       "spiciness": 0,
+       "weight": 0,
+       "calories": 0,
+       "protein": 0,
+       "carbohydrates": 0,
+       "fat": 0,
+       "fiber": 0,
+       "sodium": 0
+      },
+      "previewImage": "https://images.example.com/c78dd762d2864faabc8470f3ad028637~tplv-shg55yqiqz-1-v1",
+      "currentStock": 0,
+      "totalStock": 15,
+      "labelMealCode": "IOTE_0001",
+      "pickupAddress": "Pickup Point",
+      "pickupAddressId": 1185,
+      "region": "sg",
+      "buildingCode": "BLDG00000001",
+      "mealDate": "2026-06-10",
+      "mealType": "lunch",
+      "mealStartTime": "12:00",
+      "mealEndTime": "14:00",
+      "reservedItemsPickedUp": 0,
+      "reservedItemsPendingPickup": 0,
+      "attributes": {
+       "dietaryRequirements": [
+        "TC_0000100"
+       ],
+       "religiousPractices": [
+        "TC_0000100"
+       ],
+       "dietaryPreferences": null,
+       "allergens": [
+        "TC_0000215",
+        "TC_0000203",
+        "TC_0000201",
+        "TC_0000218",
+        "TC_0000208",
+        "TC_0000207",
+        "TC_0000206",
+        "TC_0000216"
+       ],
+       "cuisines": null,
+       "proteinTypes": null,
+       "spiceLevels": null
+      },
+      "userPreferenceMatch": {
+       "isMatched": false,
+       "reasons": null
+      }
+     },
+     {
+      "id": 225076,
+      "skuCode": "7acd0ed22aa66b8d14931a12444d7b3b",
+      "specification": "White Rice, Sambal Eggplant, Fried Tempeh (5 pieces), Tempeh with Peanuts, Chili Sambal",
+      "name": "<REDACTED>",
+      "dishData": {
+       "imageUrl": "https://images.example.com/26c037dd6f604acdb5df305c1f3b7c75~tplv-shg55yqiqz-1-v1",
+       "name": "<REDACTED>",
+       "code": "717925",
+       "description": "White Rice, Sambal Eggplant, Fried Tempeh (5 pieces), Tempeh with Peanuts, Chili Sambal",
+       "ingredients": "White Rice, Sambal Eggplant, Fried Tempeh (5 pieces), Tempeh with Peanuts, Chili Sambal",
+       "religiousPracticesEn": [
+        "Halal"
+       ],
+       "religiousPracticesCn": [
+        "清真"
+       ],
+       "dietaryPreferencesEn": [
+        "Vegan"
+       ],
+       "dietaryPreferencesCn": [
+        "纯素"
+       ],
+       "allergensEn": [
+        "Gluten",
+        "Peanuts",
+        "Soy"
+       ],
+       "allergensCn": [
+        "麸质",
+        "大豆",
+        "花生"
+       ],
+       "allergensCd": [
+        "TC_0000201",
+        "TC_0000207",
+        "TC_0000210"
+       ],
+       "flavorProfileEn": null,
+       "flavorProfileCn": null,
+       "proteinTypeEn": null,
+       "proteinTypeCn": null,
+       "cuisineEn": "Southeast Asian",
+       "cuisineCn": "东南亚菜",
+       "servingTemperatureEn": "",
+       "servingTemperatureCn": "",
+       "restaurantName": null,
+       "spiciness": 0,
+       "weight": 0,
+       "calories": 0,
+       "protein": 0,
+       "carbohydrates": 0,
+       "fat": 0,
+       "fiber": 0,
+       "sodium": 0
+      },
+      "previewImage": "https://images.example.com/26c037dd6f604acdb5df305c1f3b7c75~tplv-shg55yqiqz-1-v1",
+      "currentStock": 0,
+      "totalStock": 2,
+      "labelMealCode": "IOTE_0001",
+      "pickupAddress": "Pickup Point",
+      "pickupAddressId": 1185,
+      "region": "sg",
+      "buildingCode": "BLDG00000001",
+      "mealDate": "2026-06-10",
+      "mealType": "lunch",
+      "mealStartTime": "12:00",
+      "mealEndTime": "14:00",
+      "reservedItemsPickedUp": 0,
+      "reservedItemsPendingPickup": 0,
+      "attributes": {
+       "dietaryRequirements": [
+        "TC_0000303",
+        "TC_0000100"
+       ],
+       "religiousPractices": [
+        "TC_0000100"
+       ],
+       "dietaryPreferences": [
+        "TC_0000303"
+       ],
+       "allergens": [
+        "TC_0000201",
+        "TC_0000207",
+        "TC_0000210"
+       ],
+       "cuisines": null,
+       "proteinTypes": null,
+       "spiceLevels": null
+      },
+      "userPreferenceMatch": {
+       "isMatched": false,
+       "reasons": null
+      }
+     }
+    ]
+   }
+  ],
+  "timezone": "",
+  "lastUsedAddress": {
+   "pickupAddressCode": "1185",
+   "pickupAddressName": "Pickup Point"
+  },
+  "orderType": "innerOrder",
+  "externalLink": "",
+  "bookedOrderInfo": {
+   "tenanatKey": "<REDACTED>",
+   "userId": "<REDACTED>",
+   "unionId": "<REDACTED>",
+   "mealDate": "2026-06-10",
+   "weekDay": "周三",
+   "weekDayInt": 3,
+   "orderId": "S20260604003302",
+   "status": 1,
+   "statusDesc": "已下单",
+   "timeCode": "lunch",
+   "timeCodeDesc": "午餐",
+   "mealSiteLabel": "Pickup Point",
+   "mealSiteLabelId": "1185",
+   "mealStart": "12:00",
+   "mealEnd": "14:00",
+   "createdAt": "2026-06-04 10:00:22",
+   "mealBuilding": "Example Tower",
+   "buildingCode": "BLDG00000001",
+   "foodPictureUrl": "https://images.example.com/dea44012cb0f40509c0fcae772da3637~tplv-shg55yqiqz-1-v1",
+   "foodName": "Gyushi - Mala Gyudon",
+   "foodDesc": "Sliced beef, Japanese rice, onions, garlic, mala soy sauce, mala chili oil.",
+   "dishData": {
+    "imageUrl": "https://images.example.com/dea44012cb0f40509c0fcae772da3637~tplv-shg55yqiqz-1-v1",
+    "name": "<REDACTED>",
+    "code": "757467",
+    "description": "Sliced beef, Japanese rice, onions, garlic, mala soy sauce, mala chili oil.",
+    "ingredients": "Sliced Beef, Japanese Rice, Onions, Garlic, Mala Soy Sauce, Mala Chili Oil.",
+    "religiousPracticesEn": null,
+    "religiousPracticesCn": null,
+    "dietaryPreferencesEn": null,
+    "dietaryPreferencesCn": null,
+    "allergensEn": [
+     "Alliums",
+     "Dairy",
+     "Egg",
+     "Gluten",
+     "Soy"
+    ],
+    "allergensCn": [
+     "麸质",
+     "乳制品",
+     "大豆",
+     "葱属",
+     "蛋类"
+    ],
+    "allergensCd": [
+     "TC_0000201",
+     "TC_0000202",
+     "TC_0000207",
+     "TC_0000218",
+     "TC_0000203"
+    ],
+    "flavorProfileEn": null,
+    "flavorProfileCn": null,
+    "proteinTypeEn": null,
+    "proteinTypeCn": null,
+    "cuisineEn": "East Asian (non-Chinese)",
+    "cuisineCn": "东亚菜（非中餐）",
+    "servingTemperatureEn": "",
+    "servingTemperatureCn": "",
+    "restaurantName": null,
+    "spiciness": 2,
+    "weight": 0,
+    "calories": 0,
+    "protein": 0,
+    "carbohydrates": 0,
+    "fat": 0,
+    "fiber": 0,
+    "sodium": 0
+   },
+   "hadCommented": false,
+   "commentStar": 0,
+   "commentContent": "",
+   "cancelLimitedTime": "2026-06-10 10:30:00",
+   "timezone": "GMT+8:00",
+   "orderType": "innerOrder",
+   "supplierID": "whyq_general",
+   "supplierName": "WhyQ General Supplier",
+   "externalLink": "",
+   "lifecycleStage": "BOOKING",
+   "autoReleaseTime": "",
+   "releaseType": 0,
+   "enableReminder": true
+  },
+  "lifecycleStage": "BOOKING",
+  "releaseAndBook": true,
+  "autoRelease": false,
+  "autoReleaseTime": "00:00:00",
+  "inventoryMode": 1,
+  "showDinnerTab": false,
+  "showFilter": false,
+  "showTotalStock": false
+ },
+ "message": "success",
+ "timestamp": 1780631277153,
+ "messageKey": ""
+}

@@ -1,0 +1,23 @@
+{
+ "code": 200,
+ "data": {
+  "user": {
+   "open_id": "<REDACTED>",
+   "union_id": "<REDACTED>",
+   "user_id": "<REDACTED>",
+   "tenant_key": "<REDACTED>",
+   "name": "<REDACTED>",
+   "en_name": "<REDACTED>",
+   "email": "<REDACTED>",
+   "avatar": "<REDACTED>",
+   "employee_no": "<REDACTED>",
+   "enterprise_email": "<REDACTED>"
+  },
+  "showOrderTab": true,
+  "showNewOrderUI": true,
+  "preferredUiVersion": "1"
+ },
+ "message": "success",
+ "timestamp": 1780631253596,
+ "messageKey": ""
+}

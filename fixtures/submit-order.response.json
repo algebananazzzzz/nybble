@@ -1,0 +1,29 @@
+{
+ "code": 200,
+ "data": {
+  "successOrders": [
+   {
+    "orderId": "S20260605002330",
+    "orderStatus": 10,
+    "failedType": 0,
+    "failedReason": "success",
+    "mealDate": "2026-06-10",
+    "mealType": "lunch",
+    "buildingCode": "BLDG00000001",
+    "buildingName": "Example Tower",
+    "foodName": "Gyushi - Mala Gyudon",
+    "pickupAddressName": "Pickup Point",
+    "pickupAddressCode": 1185,
+    "mealStartTime": "12:00",
+    "mealEndTime": "14:00",
+    "forbidReselect": false,
+    "lifecycleStage": "BOOKING"
+   }
+  ],
+  "failOrders": [],
+  "total": 1
+ },
+ "message": "success",
+ "timestamp": 1780631284052,
+ "messageKey": ""
+}
