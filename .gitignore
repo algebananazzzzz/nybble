@@ -7,7 +7,7 @@ config/cookies.json
 !.env.example
 
 # go build artifacts
-/canteen
+/nybble
 /dist/
 *.test
 *.out

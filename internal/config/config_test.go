@@ -6,6 +6,23 @@ import (
 	"testing"
 )
 
+func TestDefaultLeadMin(t *testing.T) {
+	if got := Default().Schedule.LeadMin; got != DefaultLeadMin {
+		t.Errorf("default LeadMin = %d, want %d", got, DefaultLeadMin)
+	}
+}
+
+// A legacy config.json predating LeadMin unmarshals it to 0; Lead() must fall back to
+// the default so a scheduled run keeps its sensible heads-up lead.
+func TestScheduleLeadFallsBackWhenZero(t *testing.T) {
+	if got := (Schedule{}).Lead(); got != DefaultLeadMin {
+		t.Errorf("zero LeadMin should fall back to %d, got %d", DefaultLeadMin, got)
+	}
+	if got := (Schedule{LeadMin: 9}).Lead(); got != 9 {
+		t.Errorf("set LeadMin should pass through, got %d", got)
+	}
+}
+
 func TestSaveLoadRoundTrip(t *testing.T) {
 	dir := t.TempDir()
 	c := Default()

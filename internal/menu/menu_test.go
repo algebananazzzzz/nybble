@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/api"
+	"github.com/algebananazzzzz/nybble/internal/api"
 )
 
 func loadMenu(t *testing.T) *api.MenuResp {

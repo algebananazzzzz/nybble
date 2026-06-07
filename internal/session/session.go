@@ -6,10 +6,10 @@ import (
 	"net/http/cookiejar"
 	"net/url"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/api"
+	"github.com/algebananazzzzz/nybble/internal/api"
 )
 
-var ErrAuthExpired = errors.New("auth expired: run `canteen auth`")
+var ErrAuthExpired = errors.New("auth expired: run `nybble auth`")
 
 // ClientFor builds an api.Client whose http.Client carries the cookie store.
 func ClientFor(store CookieStore, base string, hc *http.Client) *api.Client {

@@ -38,10 +38,10 @@ func parseDotenv(r io.Reader) map[string]string {
 	return out
 }
 
-// dotenvFiles returns candidate .env paths. CANTEEN_ENV_FILE overrides discovery;
-// otherwise ./.env (dev convenience) then ~/.config/canteen/.env (installed use).
+// dotenvFiles returns candidate .env paths. NYBBLE_ENV_FILE overrides discovery;
+// otherwise ./.env (dev convenience) then ~/.config/nybble/.env (installed use).
 func dotenvFiles() []string {
-	if p := os.Getenv("CANTEEN_ENV_FILE"); p != "" {
+	if p := os.Getenv("NYBBLE_ENV_FILE"); p != "" {
 		return []string{p}
 	}
 	var files []string
@@ -56,7 +56,7 @@ func dotenvFiles() []string {
 
 // LoadDotenv loads .env files into the process environment WITHOUT overriding
 // variables that are already set. Precedence: real env > ./.env >
-// ~/.config/canteen/.env. Missing files are not an error. Call once at startup.
+// ~/.config/nybble/.env. Missing files are not an error. Call once at startup.
 func LoadDotenv() {
 	for _, path := range dotenvFiles() {
 		f, err := os.Open(path)

@@ -9,7 +9,7 @@ func (s *spy) Send(title, msg string) error { s.called++; return nil }
 func TestDispatchSendsToLarkWhenEnabled(t *testing.T) {
 	l := &spy{}
 	d := Dispatcher{Enabled: true, Lark: l}
-	_ = d.Notify("t", "m")
+	_ = d.NotifyDetailed("t", "m", "m")
 	if l.called != 1 {
 		t.Fatalf("lark not called: %d", l.called)
 	}
@@ -18,7 +18,7 @@ func TestDispatchSendsToLarkWhenEnabled(t *testing.T) {
 func TestDispatchSkipsWhenDisabled(t *testing.T) {
 	l := &spy{}
 	d := Dispatcher{Enabled: false, Lark: l}
-	_ = d.Notify("t", "m")
+	_ = d.NotifyDetailed("t", "m", "m")
 	if l.called != 0 {
 		t.Fatalf("disabled dispatcher should not send: %d", l.called)
 	}

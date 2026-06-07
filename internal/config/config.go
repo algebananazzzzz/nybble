@@ -13,12 +13,28 @@ type Pickup struct {
 	Code int    `json:"code"`
 	Name string `json:"name"`
 }
+
+// DefaultLeadMin is how many minutes before the open time the job fires (and the
+// "starts in N min" heads-up sends) when a config doesn't specify its own lead.
+const DefaultLeadMin = 5
+
 type Schedule struct {
 	Weekday string `json:"weekday"`
 	Hour    int    `json:"hour"`
 	Minute  int    `json:"minute"`
 	TZ      string `json:"tz"`
+	LeadMin int    `json:"leadMin"` // minutes before open to fire + notify
 }
+
+// Lead returns the effective heads-up lead in minutes, falling back to DefaultLeadMin
+// for a legacy config.json that predates the field (unmarshals LeadMin to 0).
+func (s Schedule) Lead() int {
+	if s.LeadMin <= 0 {
+		return DefaultLeadMin
+	}
+	return s.LeadMin
+}
+
 type Notify struct {
 	Channel    string `json:"channel"` // lark | off
 	LarkTarget string `json:"larkTarget"`
@@ -65,7 +81,7 @@ func Default() Config {
 		Pickup:   Pickup{},
 		MealType: "lunch",
 		BookDays: append([]string(nil), Weekdays...),
-		Schedule: Schedule{Weekday: "thu", Hour: 10, Minute: 0, TZ: "UTC"},
+		Schedule: Schedule{Weekday: "thu", Hour: 10, Minute: 0, TZ: "UTC", LeadMin: DefaultLeadMin},
 		Notify:   Notify{Channel: "off"},
 	}
 }

@@ -1,13 +1,13 @@
 # GoReleaser config — https://goreleaser.com
-# Builds the `canteen` CLI for macOS (arm64 + amd64) and publishes a GitHub Release.
+# Builds the `nybble` CLI for macOS (arm64 + amd64) and publishes a GitHub Release.
 version: 2
 
-project_name: canteen
+project_name: nybble
 
 builds:
-  - id: canteen
-    main: ./cmd/canteen
-    binary: canteen
+  - id: nybble
+    main: ./cmd/nybble
+    binary: nybble
     flags:
       - -trimpath
     env:
@@ -24,9 +24,9 @@ builds:
       - -X main.date={{.Date}}
 
 archives:
-  - id: canteen
+  - id: nybble
     formats: [tar.gz]
-    name_template: "canteen_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    name_template: "nybble_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     files:
       - README.md
       - LICENSE*
@@ -57,7 +57,7 @@ changelog:
 release:
   github:
     owner: algebananazzzzz
-    name: bytecanteen
+    name: nybble
   draft: false
   prerelease: auto
   name_template: "{{ .Tag }}"

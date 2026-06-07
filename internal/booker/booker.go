@@ -1,9 +1,7 @@
 package booker
 
 import (
-	"fmt"
-
-	"github.com/algebananazzzzz/bytecanteen/internal/api"
+	"github.com/algebananazzzzz/nybble/internal/api"
 )
 
 type Identity struct {
@@ -36,28 +34,4 @@ type Result struct {
 	Booked []string // "2026-06-10 Mala Gyudon"
 	Failed []string // "2026-06-11 Chickenjoy: sold out"
 	DryRun bool
-}
-
-// Submit sends the batch unless dry. In dry mode it returns the would-be payload
-// description without calling the API.
-func Submit(c *api.Client, batch api.SubmitReq, dry bool) (Result, error) {
-	if dry {
-		r := Result{DryRun: true}
-		for _, o := range batch.Orders {
-			r.Booked = append(r.Booked, fmt.Sprintf("%s %s (DRY)", o.MealDate, o.FoodName))
-		}
-		return r, nil
-	}
-	resp, err := c.Submit(batch)
-	if err != nil {
-		return Result{}, err
-	}
-	var r Result
-	for _, s := range resp.Data.SuccessOrders {
-		r.Booked = append(r.Booked, fmt.Sprintf("%s %s", s.MealDate, s.FoodName))
-	}
-	for _, f := range resp.Data.FailOrders {
-		r.Failed = append(r.Failed, fmt.Sprintf("%s %s: %s", f.MealDate, f.FoodName, f.FailedReason))
-	}
-	return r, nil
 }

@@ -3,7 +3,7 @@ package booker
 import (
 	"testing"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/api"
+	"github.com/algebananazzzzz/nybble/internal/api"
 )
 
 func TestBuildOrderMapsItemFields(t *testing.T) {

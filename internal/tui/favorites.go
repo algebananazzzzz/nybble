@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/config"
-	"github.com/algebananazzzzz/bytecanteen/internal/menu"
-	"github.com/algebananazzzzz/bytecanteen/internal/run"
+	"github.com/algebananazzzzz/nybble/internal/config"
+	"github.com/algebananazzzzz/nybble/internal/menu"
+	"github.com/algebananazzzzz/nybble/internal/run"
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
@@ -235,6 +235,16 @@ func (f *favModel) Update(msg tea.Msg) (screenModel, tea.Cmd) {
 					f.notice = errNote("save failed")
 				} else {
 					f.notice = okNote("saved")
+				}
+				return f, nil
+			case "r":
+				// Scanning populates both vendors and dishes, so it must be
+				// reachable from the vendors view — it is the first-run landing
+				// view and starts out empty.
+				if !f.scanning && !f.st.grabbed {
+					f.scanning = true
+					f.notice = ""
+					return f, tea.Batch(rescanCmd(), f.sp.Tick)
 				}
 				return f, nil
 			case "enter", " ":
@@ -603,7 +613,7 @@ func (f *favModel) vendorsView(w int) string {
 	b.WriteString(head + "\n")
 	b.WriteString(subtitleStyle.Render("rank vendors — fallback when no favorite dish is in stock") + "\n")
 	if len(f.vlist.Items()) == 0 {
-		b.WriteString(footStyle.Render("no vendors yet — tab to dishes and press r to rescan"))
+		b.WriteString(footStyle.Render("no vendors yet — press r to scan this week's menu"))
 		return b.String()
 	}
 	b.WriteString(f.vlist.View())
@@ -654,7 +664,7 @@ func (f *favModel) Footer() string {
 		if f.st.grabbed {
 			return footStyle.Render("↑/↓ move vendor   enter drop   s save   esc cancel")
 		}
-		return footStyle.Render("↑/↓ scroll   enter grab   tab dishes   s save   esc back")
+		return footStyle.Render("↑/↓ scroll   enter grab   r rescan   tab dishes   s save   esc back")
 	case viewDeleted:
 		return footStyle.Render("↑/↓ scroll   d restore   tab vendors   esc back")
 	default: // dishes

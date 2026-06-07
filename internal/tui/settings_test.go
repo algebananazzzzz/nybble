@@ -3,7 +3,7 @@ package tui
 import (
 	"testing"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/config"
+	"github.com/algebananazzzzz/nybble/internal/config"
 )
 
 func TestNotifyOptionsGatedOnLark(t *testing.T) {
@@ -39,7 +39,7 @@ func TestMigrateChannel(t *testing.T) {
 
 func TestProbeBuildsFormAndGatesLark(t *testing.T) {
 	// Lark unavailable: form built, channel forced Off.
-	s := &settings{cfg: withChannel("lark"), hour: "10", phase: phaseProbing}
+	s := &settings{cfg: withChannel("lark"), phase: phaseProbing}
 	m, _ := s.Update(larkProbeMsg{Installed: true, Authed: false, Reason: "bot not configured"})
 	ss := m.(*settings)
 	if ss.phase != phaseForm || ss.form == nil {
@@ -50,7 +50,7 @@ func TestProbeBuildsFormAndGatesLark(t *testing.T) {
 	}
 
 	// Lark available: channel preserved, form built.
-	s2 := &settings{cfg: withChannel("lark"), hour: "10", phase: phaseProbing}
+	s2 := &settings{cfg: withChannel("lark"), phase: phaseProbing}
 	m2, _ := s2.Update(larkProbeMsg{Installed: true, Authed: true})
 	if got := m2.(*settings).cfg.Notify.Channel; got != "lark" {
 		t.Errorf("available lark should keep channel=lark, got %q", got)
@@ -59,8 +59,6 @@ func TestProbeBuildsFormAndGatesLark(t *testing.T) {
 
 func TestValidateLarkTarget(t *testing.T) {
 	bad := map[string]string{
-		"empty":     "",
-		"spaces":    "   ",
 		"no prefix": "abc123",
 		"email":     "user@example.com",
 	}
@@ -69,7 +67,9 @@ func TestValidateLarkTarget(t *testing.T) {
 			t.Errorf("%s (%q): want error, got nil", name, v)
 		}
 	}
-	good := []string{"ou_7ae70037c13a107d25e8b4ed0cd87746", "oc_abc123"}
+	// Blank (and whitespace-only) is valid now — it means "DM me" (the bot falls
+	// back to your union_id). on_ is the explicit union_id form.
+	good := []string{"", "   ", "ou_7ae70037c13a107d25e8b4ed0cd87746", "oc_abc123", "on_b"}
 	for _, v := range good {
 		if err := validateLarkTarget(v); err != nil {
 			t.Errorf("%q: want ok, got %v", v, err)

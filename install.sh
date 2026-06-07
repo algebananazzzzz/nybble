@@ -1,11 +1,11 @@
 #!/bin/sh
-# Install the latest `canteen` release binary on macOS.
-#   curl -fsSL https://raw.githubusercontent.com/algebananazzzzz/bytecanteen/main/install.sh | sh
+# Install the latest `nybble` release binary on macOS.
+#   curl -fsSL https://raw.githubusercontent.com/algebananazzzzz/nybble/main/install.sh | sh
 set -eu
 
 OWNER="algebananazzzzz"
-REPO="bytecanteen"
-BIN="canteen"
+REPO="nybble"
+BIN="nybble"
 
 err() { echo "install: $*" >&2; exit 1; }
 
@@ -69,9 +69,12 @@ esac
 cat <<'EOF'
 
 Next steps:
-  1. Set the deployment-specific endpoints (see README "Configuration"):
-       export CANTEEN_API_BASE="https://<host>/<app-path>"
-       export CANTEEN_LOGIN_URL="https://<host>/<login-path>"
-  2. Log in once:   canteen auth
-  3. Run the TUI:   canteen
+  1. Install the login helper (REQUIRED for `nybble auth`):
+       npm i -g @playwright/cli && playwright-cli install chromium
+  2. Set the deployment-specific endpoints (see README "Configuration"),
+     e.g. in ~/.config/nybble/.env:
+       NYBBLE_API_BASE="https://<host>/<app-path>"
+       NYBBLE_LOGIN_URL="https://<host>/<login-path>"
+  3. Log in once:   nybble auth
+  4. Run the TUI:   nybble
 EOF

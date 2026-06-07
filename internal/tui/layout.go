@@ -67,7 +67,7 @@ func fit(s string, w, h int) string {
 // header renders the global status chrome: brand + live status badges, a dim
 // meta line, and a rule — always exactly headerLines tall.
 func header(w int, st State) string {
-	brand := appTitleStyle.Render("bytecanteen") + brandStyle.Render("  ·  canteen lunch autobooker")
+	brand := appTitleStyle.Render("nybble") + brandStyle.Render("  ·  canteen lunch autobooker")
 
 	var status string
 	if st.Loading {

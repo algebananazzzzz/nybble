@@ -47,6 +47,37 @@ func TestLarkApiArgsIdentityAndTarget(t *testing.T) {
 	if !sliceHasJSONField(group, "receive_id_type", "chat_id") {
 		t.Errorf("oc_ target should use chat_id, got %v", group)
 	}
+
+	// A union_id (on_…) is the cross-app default the bot DMs you with.
+	dmUnion := Lark{Target: "on_def"}.apiArgs("Canteen", "booked")
+	if !sliceHasJSONField(dmUnion, "receive_id_type", "union_id") {
+		t.Errorf("on_ target should use union_id, got %v", dmUnion)
+	}
+}
+
+func TestDispatcherDefaultTarget(t *testing.T) {
+	// Blank target → fall back to the supplied id (typically the user's union_id).
+	d := Dispatcher{Enabled: true, Lark: Lark{Target: ""}}
+	d.DefaultTarget("on_me")
+	if got := d.Lark.(Lark).Target; got != "on_me" {
+		t.Errorf("blank target should default to on_me, got %q", got)
+	}
+
+	// An explicit target is never overridden.
+	d2 := Dispatcher{Enabled: true, Lark: Lark{Target: "oc_group"}}
+	d2.DefaultTarget("on_me")
+	if got := d2.Lark.(Lark).Target; got != "oc_group" {
+		t.Errorf("explicit target must win, got %q", got)
+	}
+
+	// Disabled, or no id to fall back to → no-op (no panic on nil Lark).
+	d3 := Dispatcher{Enabled: false}
+	d3.DefaultTarget("on_me")
+	d4 := Dispatcher{Enabled: true, Lark: Lark{Target: ""}}
+	d4.DefaultTarget("")
+	if got := d4.Lark.(Lark).Target; got != "" {
+		t.Errorf("empty id should leave target blank, got %q", got)
+	}
 }
 
 // sliceHasJSONField reports whether any arg contains "key":"val" (the params/data

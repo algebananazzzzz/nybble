@@ -3,16 +3,13 @@ package main
 import (
 	"fmt"
 	"os"
-	"time"
 
 	"github.com/spf13/cobra"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/auth"
-	"github.com/algebananazzzzz/bytecanteen/internal/clock"
-	"github.com/algebananazzzzz/bytecanteen/internal/config"
-	"github.com/algebananazzzzz/bytecanteen/internal/run"
-	"github.com/algebananazzzzz/bytecanteen/internal/schedule"
-	"github.com/algebananazzzzz/bytecanteen/internal/tui"
+	"github.com/algebananazzzzz/nybble/internal/auth"
+	"github.com/algebananazzzzz/nybble/internal/config"
+	"github.com/algebananazzzzz/nybble/internal/run"
+	"github.com/algebananazzzzz/nybble/internal/tui"
 )
 
 // Stamped by GoReleaser at build time via -ldflags -X.
@@ -23,13 +20,13 @@ var (
 )
 
 func main() {
-	// Load endpoint config from .env (./.env or ~/.config/canteen/.env) before any
+	// Load endpoint config from .env (./.env or ~/.config/nybble/.env) before any
 	// subcommand reads it; real environment variables still take precedence.
 	config.LoadDotenv()
 
 	root := &cobra.Command{
-		Use:     "canteen",
-		Short:   "Auto-book canteen lunch",
+		Use:     "nybble",
+		Short:   "Automatically book your canteen lunch from your preferences",
 		Version: fmt.Sprintf("%s (commit %s, built %s)", version, commit, date),
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := tui.Run(); err != nil {
@@ -79,28 +76,30 @@ func main() {
 		},
 	})
 
-	schedCmd := &cobra.Command{Use: "schedule", Short: "Manage the weekly job"}
-	schedCmd.AddCommand(&cobra.Command{
-		Use: "on", RunE: func(cmd *cobra.Command, args []string) error {
-			bin, _ := os.Executable()
-			d, err := run.LoadDeps()
-			if err != nil {
+	clearCmd := &cobra.Command{
+		Use:     "clear",
+		Aliases: []string{"logout"},
+		Short:   "Clear all local data (clean slate; keeps .env endpoints)",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			yes, _ := cmd.Flags().GetBool("yes")
+			if !yes {
+				fmt.Print("This erases all local data (cookies, config, favorites, catalog) but keeps .env. Continue? [y/N]: ")
+				var resp string
+				fmt.Scanln(&resp)
+				if resp != "y" && resp != "Y" {
+					fmt.Println("cancelled")
+					return nil
+				}
+			}
+			if err := auth.Clear(); err != nil {
 				return err
 			}
-			loc, err := time.LoadLocation(d.Cfg.Schedule.TZ)
-			if err != nil {
-				return fmt.Errorf("bad timezone %q: %w", d.Cfg.Schedule.TZ, err)
-			}
-			wdMap := map[string]time.Weekday{"sun": 0, "mon": 1, "tue": 2, "wed": 3, "thu": 4, "fri": 5, "sat": 6}
-			openTime := clock.NextOpen(time.Now(), wdMap[d.Cfg.Schedule.Weekday], d.Cfg.Schedule.Hour, d.Cfg.Schedule.Minute, loc)
-			l := openTime.Local()
-			return schedule.On(bin, int(l.Weekday()), l.Hour(), l.Minute())
+			fmt.Println("✓ Clean slate — run `nybble auth` to set up again.")
+			return nil
 		},
-	})
-	schedCmd.AddCommand(&cobra.Command{
-		Use: "off", RunE: func(cmd *cobra.Command, args []string) error { return schedule.Off() },
-	})
-	root.AddCommand(schedCmd)
+	}
+	clearCmd.Flags().Bool("yes", false, "skip the confirmation prompt")
+	root.AddCommand(clearCmd)
 
 	if err := root.Execute(); err != nil {
 		fmt.Fprintln(os.Stderr, err)

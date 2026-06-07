@@ -1,13 +1,13 @@
-BIN := canteen
+BIN := nybble
 
 build:
-	go build -trimpath -o $(BIN) ./cmd/canteen
+	go build -trimpath -o $(BIN) ./cmd/nybble
 
 test:
 	go test ./...
 
 run:
-	go run ./cmd/canteen
+	go run ./cmd/nybble
 
 fmt:
 	gofmt -w .

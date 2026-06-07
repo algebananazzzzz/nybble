@@ -1,4 +1,4 @@
-module github.com/algebananazzzzz/bytecanteen
+module github.com/algebananazzzzz/nybble
 
 go 1.26.3
 

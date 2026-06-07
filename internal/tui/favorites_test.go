@@ -4,9 +4,26 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/config"
+	"github.com/algebananazzzzz/nybble/internal/config"
 	"github.com/charmbracelet/bubbles/list"
+	tea "github.com/charmbracelet/bubbletea"
 )
+
+// First run lands on the (empty) vendors view; the user must be able to scan the
+// menu from there, otherwise there is no way to populate vendors or dishes.
+func TestRescanStartsFromVendorsView(t *testing.T) {
+	f := newTestFav() // empty lists
+	f.view = viewVendors
+
+	_, cmd := f.Update(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune{'r'}})
+
+	if !f.scanning {
+		t.Fatal("pressing r on the vendors view should start a scan")
+	}
+	if cmd == nil {
+		t.Fatal("pressing r should return a scan command")
+	}
+}
 
 func newTestFav(names ...string) *favModel {
 	st := &favState{}

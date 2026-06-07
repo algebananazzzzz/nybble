@@ -3,8 +3,8 @@ package config
 import "testing"
 
 func TestLoadEndpointsReturnsEnvValues(t *testing.T) {
-	t.Setenv("CANTEEN_API_BASE", "https://host.example.com/app")
-	t.Setenv("CANTEEN_LOGIN_URL", "https://host.example.com/login")
+	t.Setenv("NYBBLE_API_BASE", "https://host.example.com/app")
+	t.Setenv("NYBBLE_LOGIN_URL", "https://host.example.com/login")
 
 	got, err := LoadEndpoints()
 	if err != nil {
@@ -28,8 +28,8 @@ func TestLoadEndpointsErrorsWhenUnset(t *testing.T) {
 	}
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			t.Setenv("CANTEEN_API_BASE", c.base)
-			t.Setenv("CANTEEN_LOGIN_URL", c.login)
+			t.Setenv("NYBBLE_API_BASE", c.base)
+			t.Setenv("NYBBLE_LOGIN_URL", c.login)
 			if _, err := LoadEndpoints(); err == nil {
 				t.Fatal("want error for unset endpoint, got nil")
 			}

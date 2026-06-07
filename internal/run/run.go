@@ -6,14 +6,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/api"
-	"github.com/algebananazzzzz/bytecanteen/internal/booker"
-	"github.com/algebananazzzzz/bytecanteen/internal/clock"
-	"github.com/algebananazzzzz/bytecanteen/internal/config"
-	"github.com/algebananazzzzz/bytecanteen/internal/menu"
-	"github.com/algebananazzzzz/bytecanteen/internal/notify"
-	"github.com/algebananazzzzz/bytecanteen/internal/selector"
-	"github.com/algebananazzzzz/bytecanteen/internal/session"
+	"github.com/algebananazzzzz/nybble/internal/api"
+	"github.com/algebananazzzzz/nybble/internal/booker"
+	"github.com/algebananazzzzz/nybble/internal/clock"
+	"github.com/algebananazzzzz/nybble/internal/config"
+	"github.com/algebananazzzzz/nybble/internal/menu"
+	"github.com/algebananazzzzz/nybble/internal/notify"
+	"github.com/algebananazzzzz/nybble/internal/selector"
+	"github.com/algebananazzzzz/nybble/internal/session"
 )
 
 func identityFrom(m map[string]any) (booker.Identity, error) {
@@ -49,8 +49,8 @@ func Book(d Deps, forceDry bool) (booker.Result, error) {
 	store, err := session.Refresh(d.Cookies, d.Endpoints.APIBase)
 	if err != nil {
 		_ = d.Notif.NotifyDetailed("Canteen",
-			"Auth expired — run `canteen auth`",
-			"🔑 Login expired — run `canteen auth` to reconnect me")
+			"Auth expired — run `nybble auth`",
+			"🔑 Login expired — run `nybble auth` to reconnect me")
 		return booker.Result{}, err
 	}
 	c := session.ClientFor(store, d.Endpoints.APIBase, nil)
@@ -66,9 +66,12 @@ func Book(d Deps, forceDry bool) (booker.Result, error) {
 	if err != nil {
 		_ = d.Notif.NotifyDetailed("Canteen",
 			"Couldn't read your profile",
-			"😵 Couldn't read your profile — try `canteen auth` again")
+			"😵 Couldn't read your profile — try `nybble auth` again")
 		return booker.Result{}, err
 	}
+	// No Lark target configured → DM the user via their union_id (tenant-stable, so
+	// it works even though the bot is a different Lark app than the canteen portal).
+	d.Notif.DefaultTarget(id.UnionID)
 
 	loc, err := time.LoadLocation(d.Cfg.Schedule.TZ)
 	if err != nil {
@@ -251,9 +254,9 @@ func rerankSummary(fellBack bool) string {
 // rerankDetail lists the in-stock dishes that match no favorite so the user knows
 // what to slot into their ranking.
 func rerankDetail(fellBack bool, unranked []string) string {
-	head := "🆕 Menu changed — open `canteen` to re-rank your favorites."
+	head := "🆕 Menu changed — open `nybble` to re-rank your favorites."
 	if fellBack {
-		head = "↩️ No favorite was in stock — I booked a fallback. Re-rank in `canteen`."
+		head = "↩️ No favorite was in stock — I booked a fallback. Re-rank in `nybble`."
 	}
 	lines := []string{head}
 	for _, n := range unranked {
@@ -401,7 +404,7 @@ func LoadDeps() (Deps, error) {
 	vendors, _ := config.LoadFavorites(filepath.Join(dir, "vendors.json"))
 	cookies, err := session.LoadCookies(filepath.Join(dir, "cookies.json"))
 	if err != nil {
-		return Deps{}, fmt.Errorf("not logged in: run `canteen auth`")
+		return Deps{}, fmt.Errorf("not logged in: run `nybble auth`")
 	}
 	disp := notify.Dispatcher{}
 	if cfg.Notify.LarkOn() {

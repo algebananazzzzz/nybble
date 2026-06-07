@@ -74,8 +74,11 @@ func parseBotInfo(out []byte) LarkStatus {
 // argument shape (identity, receive_id type) is unit-testable without a subprocess.
 func (l Lark) apiArgs(title, message string) []string {
 	idType := "open_id"
-	if strings.HasPrefix(l.Target, "oc_") {
+	switch {
+	case strings.HasPrefix(l.Target, "oc_"):
 		idType = "chat_id"
+	case strings.HasPrefix(l.Target, "on_"):
+		idType = "union_id" // the cross-app default: DM the user by their union_id
 	}
 	content, _ := json.Marshal(map[string]string{"text": title + ": " + message})
 	params, _ := json.Marshal(map[string]string{"receive_id_type": idType})

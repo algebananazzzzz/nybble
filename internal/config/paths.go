@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 )
 
-// ConfigDir returns ~/.config/canteen (honoring XDG_CONFIG_HOME), creating it.
+// ConfigDir returns ~/.config/nybble (honoring XDG_CONFIG_HOME), creating it.
 func ConfigDir() (string, error) {
 	base := os.Getenv("XDG_CONFIG_HOME")
 	if base == "" {
@@ -15,6 +15,6 @@ func ConfigDir() (string, error) {
 		}
 		base = filepath.Join(home, ".config")
 	}
-	dir := filepath.Join(base, "canteen")
+	dir := filepath.Join(base, "nybble")
 	return dir, os.MkdirAll(dir, 0o700)
 }

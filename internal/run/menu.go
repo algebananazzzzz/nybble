@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/api"
-	"github.com/algebananazzzzz/bytecanteen/internal/catalog"
-	"github.com/algebananazzzzz/bytecanteen/internal/config"
-	"github.com/algebananazzzzz/bytecanteen/internal/menu"
-	"github.com/algebananazzzzz/bytecanteen/internal/session"
+	"github.com/algebananazzzzz/nybble/internal/api"
+	"github.com/algebananazzzzz/nybble/internal/catalog"
+	"github.com/algebananazzzzz/nybble/internal/config"
+	"github.com/algebananazzzzz/nybble/internal/menu"
+	"github.com/algebananazzzzz/nybble/internal/session"
 )
 
 func dishNames(menus []*api.MenuResp) []string {
@@ -102,6 +102,9 @@ func Menu(d Deps) error {
 // dish catalog and vendor ranking. Unlike Menu it prints nothing — it backs the
 // TUI's on-demand "rescan" action.
 func Scan(d Deps) (catalog.Catalog, config.Favorites, error) {
+	if d.Cfg.Building.Code == "" {
+		return nil, nil, fmt.Errorf("no building set — run `nybble auth` to detect it")
+	}
 	store, err := session.Refresh(d.Cookies, d.Endpoints.APIBase)
 	if err != nil {
 		return nil, nil, err

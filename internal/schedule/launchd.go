@@ -7,16 +7,36 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+	"time"
+
+	"github.com/algebananazzzzz/nybble/internal/clock"
 )
 
-const Label = "com.bytecanteen.autobooker"
+// weekdayNum maps the config's weekday code to a time.Weekday for the open-time lookup.
+var weekdayNum = map[string]time.Weekday{
+	"sun": 0, "mon": 1, "tue": 2, "wed": 3, "thu": 4, "fri": 5, "sat": 6,
+}
+
+// LocalFire converts a configured open (weekdayCode + hh:mm in tz) into the local
+// weekday/hour/minute that launchd and pmset use (both run in the machine's local time).
+// now anchors which upcoming occurrence is resolved.
+func LocalFire(weekdayCode string, hh, mm int, tz string, now time.Time) (launchdWeekday, lhh, lmm int, err error) {
+	loc, lerr := time.LoadLocation(tz)
+	if lerr != nil {
+		return 0, 0, 0, fmt.Errorf("bad timezone %q: %w", tz, lerr)
+	}
+	open := clock.NextOpen(now, weekdayNum[weekdayCode], hh, mm, loc).Local()
+	return int(open.Weekday()), open.Hour(), open.Minute(), nil
+}
+
+const Label = "com.algebananazzzzz.nybble"
 
 var xmlEscaper = strings.NewReplacer("&", "&amp;", "<", "&lt;", ">", "&gt;", `"`, "&quot;", "'", "&apos;")
 
-// jobEnvKeys are the CANTEEN_* variables captured from the installing shell into the
+// jobEnvKeys are the NYBBLE_* variables captured from the installing shell into the
 // scheduled job. A launchd run has none of the shell's environment, so without these the
-// `book` run hits the hard "CANTEEN_API_BASE not set" error and never books.
-var jobEnvKeys = []string{"CANTEEN_API_BASE", "CANTEEN_LOGIN_URL", "CANTEEN_LARK_TARGET"}
+// `book` run hits the hard "NYBBLE_API_BASE not set" error and never books.
+var jobEnvKeys = []string{"NYBBLE_API_BASE", "NYBBLE_LOGIN_URL"}
 
 // envForJob snapshots the currently-set jobEnvKeys (skipping empty ones).
 func envForJob() map[string]string {
@@ -32,7 +52,7 @@ func envForJob() map[string]string {
 // Plist renders a launchd job that runs `<bin> book` at weekday hh:mm (local time).
 // pathEnv is baked into the job's PATH: launchd's default PATH is minimal, so without
 // this the run can't find lark-cli and Lark notifications silently degrade (or vanish).
-// env carries additional EnvironmentVariables (the CANTEEN_* endpoint config) so a
+// env carries additional EnvironmentVariables (the NYBBLE_* endpoint config) so a
 // scheduled run can resolve the API; keys are emitted sorted for a stable plist.
 func Plist(bin, pathEnv string, env map[string]string, weekday, hh, mm int) string {
 	var envXML strings.Builder
@@ -59,8 +79,8 @@ func Plist(bin, pathEnv string, env map[string]string, weekday, hh, mm int) stri
     <key>Hour</key><integer>%d</integer>
     <key>Minute</key><integer>%d</integer>
   </dict>
-  <key>StandardOutPath</key><string>%s/canteen.log</string>
-  <key>StandardErrorPath</key><string>%s/canteen.err</string>
+  <key>StandardOutPath</key><string>%s/nybble.log</string>
+  <key>StandardErrorPath</key><string>%s/nybble.err</string>
 </dict></plist>`, Label, bin, envXML.String(), weekday, hh, mm, logDir(), logDir())
 }
 
@@ -98,31 +118,55 @@ func plistPath() string {
 	return filepath.Join(h, "Library", "LaunchAgents", Label+".plist")
 }
 
-const (
-	launchLeadMin = 5 // launchd fires this many min early; the run waits precisely to hh:mm
-	wakeLeadMin   = 7 // pmset wakes the Mac this many min early (before launchd fires)
-)
+// wakeBufferMin is how far ahead of the launchd fire the Mac is woken, so it's fully
+// up before the job runs. Total wake lead = leadMin + wakeBufferMin.
+const wakeBufferMin = 2
 
-// On writes + loads the job and schedules a pmset wake before it.
-// weekday: 1=Mon..7=Sun for pmset; launchd uses 0=Sun..6=Sat (caller passes launchd weekday).
-func On(bin string, launchdWeekday, hh, mm int) error {
-	// Fire launchd ~5 min early; the run notifies "starts in N min" then waits to hh:mm.
-	lh, lm := subMinutes(hh, mm, launchLeadMin)
-	if err := os.WriteFile(plistPath(), []byte(Plist(bin, jobPath(), envForJob(), launchdWeekday, lh, lm)), 0o644); err != nil {
+// jobPlist renders the launchd job for an open time of hh:mm, set to FIRE leadMin early
+// so the run can notify "starts in N min" then wait to the exact open. Pure (no I/O
+// beyond reading the current PATH/endpoint env), so the fire-time arithmetic is testable.
+func jobPlist(bin string, launchdWeekday, hh, mm, leadMin int) string {
+	lh, lm := subMinutes(hh, mm, leadMin)
+	return Plist(bin, jobPath(), envForJob(), launchdWeekday, lh, lm)
+}
+
+// InstallJob writes + (re)loads the launchd LaunchAgent. No sudo — it lives in the
+// user's ~/Library/LaunchAgents. launchdWeekday is 0=Sun..6=Sat.
+func InstallJob(bin string, launchdWeekday, hh, mm, leadMin int) error {
+	if err := os.WriteFile(plistPath(), []byte(jobPlist(bin, launchdWeekday, hh, mm, leadMin)), 0o644); err != nil {
 		return err
 	}
-	if err := exec.Command("launchctl", "unload", plistPath()).Run(); err != nil {
-		// ignore: may not be loaded yet
-	}
-	if err := exec.Command("launchctl", "load", plistPath()).Run(); err != nil {
+	_ = exec.Command("launchctl", "unload", plistPath()).Run() // ignore: may not be loaded
+	return exec.Command("launchctl", "load", plistPath()).Run()
+}
+
+// RemoveJob unloads + deletes the LaunchAgent. No sudo. Idempotent.
+func RemoveJob() error {
+	_ = exec.Command("launchctl", "unload", plistPath()).Run()
+	if err := os.Remove(plistPath()); err != nil && !os.IsNotExist(err) {
 		return err
 	}
-	// pmset wake ~7 min before open (requires sudo; print guidance if it fails)
+	return nil
+}
+
+// WakeCmd builds the `sudo pmset repeat wake` command that wakes the Mac
+// leadMin+wakeBufferMin before the open time. Returned unrun so the caller (the TUI)
+// can drive it through tea.ExecProcess and surface macOS's own sudo prompt.
+func WakeCmd(launchdWeekday, hh, mm, leadMin int) *exec.Cmd {
 	day := pmsetDay(launchdWeekday)
-	wh, wm := subMinutes(hh, mm, wakeLeadMin)
-	cmd := exec.Command("sudo", "pmset", "repeat", "wake", day, fmt.Sprintf("%02d:%02d:00", wh, wm))
-	cmd.Stdout, cmd.Stderr = os.Stdout, os.Stderr
-	return cmd.Run()
+	wh, wm := subMinutes(hh, mm, leadMin+wakeBufferMin)
+	return exec.Command("sudo", "pmset", "repeat", "wake", day, fmt.Sprintf("%02d:%02d:00", wh, wm))
+}
+
+// WakeCancelCmd builds the `sudo pmset repeat cancel` command (also needs sudo).
+func WakeCancelCmd() *exec.Cmd {
+	return exec.Command("sudo", "pmset", "repeat", "cancel")
+}
+
+// Installed reports whether the LaunchAgent plist exists — the schedule's on/off state.
+func Installed() bool {
+	_, err := os.Stat(plistPath())
+	return err == nil
 }
 
 // subMinutes returns hh:mm minus d minutes, wrapping within a 24h day. It does not roll
@@ -130,12 +174,6 @@ func On(bin string, launchdWeekday, hh, mm int) error {
 func subMinutes(hh, mm, d int) (int, int) {
 	t := ((hh*60+mm-d)%(24*60) + 24*60) % (24 * 60)
 	return t / 60, t % 60
-}
-
-func Off() error {
-	_ = exec.Command("launchctl", "unload", plistPath()).Run()
-	_ = os.Remove(plistPath())
-	return exec.Command("sudo", "pmset", "repeat", "cancel").Run()
 }
 
 func pmsetDay(launchdWeekday int) string {

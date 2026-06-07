@@ -73,3 +73,23 @@ func (c *Client) UserInfo() (map[string]any, error) {
 	out := map[string]any{}
 	return out, c.do(req, &out)
 }
+
+// CurrentBuilding returns the user's selected canteen building — the MDM code used as
+// buildingCode for calendar/menu/submit, plus its display name — from their saved
+// preferences. This is how the app knows which building's menus to show; it needs
+// only a valid session, so it's how `nybble auth` auto-detects the building.
+func (c *Client) CurrentBuilding() (code, name string, err error) {
+	req, _ := http.NewRequest("GET", c.base+"/mini-program/user/v1/preferences?key=CURRENT_BUILDING_KEY", nil)
+	var out PreferenceResp
+	if err = c.do(req, &out); err != nil {
+		return "", "", err
+	}
+	if out.Data == "" {
+		return "", "", fmt.Errorf("no current building set")
+	}
+	var b BuildingPref
+	if err = json.Unmarshal([]byte(out.Data), &b); err != nil {
+		return "", "", fmt.Errorf("decode building pref: %w", err)
+	}
+	return b.MdmCode, b.RegionName, nil
+}

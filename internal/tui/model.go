@@ -1,10 +1,13 @@
 package tui
 
 import (
+	"io"
+	"log"
+	"os"
 	"path/filepath"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/config"
-	"github.com/algebananazzzzz/bytecanteen/internal/session"
+	"github.com/algebananazzzzz/nybble/internal/config"
+	"github.com/algebananazzzzz/nybble/internal/session"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -24,6 +27,7 @@ const (
 	scrDashboard screen = iota
 	scrFavorites
 	scrSettings
+	scrSchedule
 	scrReauth
 )
 
@@ -40,7 +44,7 @@ type (
 	stateMsg      State // async snapshot result
 	navMsg        struct{ to screen }
 	bodySizeMsg   struct{ w, h int } // body area handed to the active child
-	reauthDoneMsg struct{ err error }
+	reauthDoneMsg struct{ err, note error }
 )
 
 type Model struct {
@@ -100,6 +104,11 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 // navigate swaps the active screen, sizes the new child, and refreshes state
 // when returning to the dashboard (a sub-screen may have changed config/auth).
 func (m Model) navigate(to screen) (tea.Model, tea.Cmd) {
+	// Favorites and Settings need a live session (catalog rescan, profile, etc.),
+	// so gate them behind auth: a logged-out user is sent to the re-auth screen.
+	if (to == scrFavorites || to == scrSettings || to == scrSchedule) && !m.state.LoggedIn {
+		to = scrReauth
+	}
 	m.screen = to
 	var cmds []tea.Cmd
 
@@ -111,6 +120,10 @@ func (m Model) navigate(to screen) (tea.Model, tea.Cmd) {
 		m.child = newFavModel()
 	case scrSettings:
 		c, cmd := newSettings()
+		m.child = c
+		cmds = append(cmds, cmd)
+	case scrSchedule:
+		c, cmd := newSchedule()
 		m.child = c
 		cmds = append(cmds, cmd)
 	case scrReauth:
@@ -164,6 +177,25 @@ func nav(to screen) tea.Cmd {
 }
 
 func Run() error {
+	// Libraries such as net/http log to the standard logger (os.Stderr by default).
+	// In alt-screen mode those lines paint over the rendered frame, so route the
+	// std logger to a file (falling back to discard) for the program's lifetime.
+	restore := quietStdLog()
+	defer restore()
+
 	_, err := tea.NewProgram(New(), tea.WithAltScreen()).Run()
 	return err
+}
+
+func quietStdLog() func() {
+	prev := log.Writer()
+	if dir, err := config.ConfigDir(); err == nil {
+		if f, ferr := os.OpenFile(filepath.Join(dir, "nybble.log"),
+			os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o600); ferr == nil {
+			log.SetOutput(f)
+			return func() { log.SetOutput(prev); f.Close() }
+		}
+	}
+	log.SetOutput(io.Discard)
+	return func() { log.SetOutput(prev) }
 }

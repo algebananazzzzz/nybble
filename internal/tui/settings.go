@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/config"
-	"github.com/algebananazzzzz/bytecanteen/internal/notify"
+	"github.com/algebananazzzzz/nybble/internal/config"
+	"github.com/algebananazzzzz/nybble/internal/notify"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/huh"
 )
@@ -31,7 +31,6 @@ type settings struct {
 	phase settingsPhase
 	form  *huh.Form
 	cfg   config.Config
-	hour  string
 	lark  notify.LarkStatus // result of the async probe; gates the Lark channel
 
 	width, height int
@@ -48,11 +47,7 @@ func newSettings() (*settings, tea.Cmd) {
 		cfg = config.Default()
 	}
 	cfg.Notify.Channel = migrateChannel(cfg.Notify.Channel)
-	cfg.Schedule.Weekday = normalizeRunDay(cfg.Schedule.Weekday)
-	if len(cfg.BookDays) == 0 {
-		cfg.BookDays = append([]string(nil), config.Weekdays...)
-	}
-	s := &settings{cfg: cfg, hour: strconv.Itoa(cfg.Schedule.Hour), phase: phaseProbing}
+	s := &settings{cfg: cfg, phase: phaseProbing}
 	return s, probeLarkCmd()
 }
 
@@ -142,28 +137,14 @@ func (s *settings) buildForm() {
 		notifySel = notifySel.Description("Lark unavailable: " + s.lark.Reason)
 	}
 
-	base := huh.NewGroup(
-		huh.NewSelect[string]().Title("Run day").
-			Description("weekday the booker fires — when next week's menu opens").
-			Options(daySelectOptions()...).
-			Value(&s.cfg.Schedule.Weekday),
-		huh.NewMultiSelect[string]().Title("Book on days").
-			Description("which weekdays to grab lunch for (space toggles)").
-			Options(dayMultiOptions(s.cfg.BookDays)...).
-			Value(&s.cfg.BookDays).
-			Validate(validateBookDays),
-		huh.NewInput().Title("Open hour (0-23)").
-			Description("hour the booking window opens, local time").
-			Value(&s.hour).Validate(validateHour),
-		notifySel,
-	)
+	base := huh.NewGroup(notifySel)
 
 	// huh hides at the group level, not the field level. A hidden trailing group makes
 	// the form submit straight after the base group (form.go), so the Lark target is
 	// asked for only when the Lark channel is chosen.
 	larkGroup := huh.NewGroup(
 		huh.NewInput().Title("Lark target").
-			Description("receive_id: ou_… (DM) or oc_… (group)").
+			Description("blank = DM you; or a receive_id: ou_… (DM) / oc_… (group)").
 			Value(&s.cfg.Notify.LarkTarget).
 			Validate(validateLarkTarget),
 	).WithHideFunc(func() bool {
@@ -191,10 +172,10 @@ func validateHour(v string) error {
 func validateLarkTarget(v string) error {
 	v = strings.TrimSpace(v)
 	if v == "" {
-		return fmt.Errorf("enter a receive_id (ou_… or oc_…)")
+		return nil // blank = DM me (the bot falls back to your union_id)
 	}
-	if !strings.HasPrefix(v, "ou_") && !strings.HasPrefix(v, "oc_") {
-		return fmt.Errorf("must start with ou_ (DM) or oc_ (group)")
+	if !strings.HasPrefix(v, "ou_") && !strings.HasPrefix(v, "oc_") && !strings.HasPrefix(v, "on_") {
+		return fmt.Errorf("blank to DM yourself, or ou_ (DM) / oc_ (group)")
 	}
 	return nil
 }
@@ -248,7 +229,6 @@ func (s *settings) updateForm(msg tea.Msg) (screenModel, tea.Cmd) {
 	}
 	switch s.form.State {
 	case huh.StateCompleted:
-		s.applyHour()
 		s.saveErr = s.save()
 		s.phase = phaseDone
 		return s, nil
@@ -256,12 +236,6 @@ func (s *settings) updateForm(msg tea.Msg) (screenModel, tea.Cmd) {
 		return s, nav(scrDashboard)
 	}
 	return s, cmd
-}
-
-func (s *settings) applyHour() {
-	if h, err := strconv.Atoi(strings.TrimSpace(s.hour)); err == nil {
-		s.cfg.Schedule.Hour = h
-	}
 }
 
 func (s *settings) save() error {

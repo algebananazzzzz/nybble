@@ -13,8 +13,18 @@ type Dispatcher struct {
 	Lark    Notifier
 }
 
-func (d Dispatcher) Notify(title, message string) error {
-	return d.NotifyDetailed(title, message, message)
+// DefaultTarget fills in the Lark receive_id when the user configured none, so a
+// blank target falls back to the supplied id — typically the user's own union_id,
+// which makes the bot DM them. No-op when disabled, when an explicit target is
+// already set, or when id is empty (e.g. identity couldn't be resolved).
+func (d *Dispatcher) DefaultTarget(id string) {
+	if !d.Enabled || id == "" {
+		return
+	}
+	if l, ok := d.Lark.(Lark); ok && l.Target == "" {
+		l.Target = id
+		d.Lark = l
+	}
 }
 
 // NotifyDetailed sends the full detail body to Lark. The short body (a compact

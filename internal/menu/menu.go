@@ -4,7 +4,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/api"
+	"github.com/algebananazzzzz/nybble/internal/api"
 )
 
 // Items flattens menuSites[].items[] into a single slice.
@@ -28,17 +28,6 @@ func Vendor(dishName string) string {
 	return ""
 }
 
-// OpenLunchDays returns dates that are reservable and not already booked for lunch.
-func OpenLunchDays(c *api.CalendarResp) []string {
-	var out []string
-	for _, d := range c.Data.Dates {
-		if d.CanReserve && !d.HadReserveLunch {
-			out = append(out, d.Date)
-		}
-	}
-	return out
-}
-
 // LunchSlot is one bookable weekday in the upcoming window.
 type LunchSlot struct {
 	Date          string
@@ -46,9 +35,9 @@ type LunchSlot struct {
 }
 
 // BookableWeekdays returns the upcoming weekdays whose booking window is open
-// (canReserve), each flagged with whether lunch is already reserved. Unlike
-// OpenLunchDays it keeps days already booked, so callers can report the whole week
-// (e.g. "5/5 booked"), not only what's left to book.
+// (canReserve), each flagged with whether lunch is already reserved. It keeps days
+// already booked, so callers can report the whole week (e.g. "5/5 booked"), not only
+// what's left to book.
 func BookableWeekdays(c *api.CalendarResp) []LunchSlot {
 	var out []LunchSlot
 	for _, d := range c.Data.Dates {

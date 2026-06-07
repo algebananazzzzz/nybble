@@ -33,12 +33,31 @@ type MenuResp struct {
 			PickupAddressName string `json:"pickupAddressName"`
 		} `json:"lastUsedAddress"`
 		// BookedOrderInfo is present when you've already reserved this day — it names
-		// the dish you booked (same "Restaurant - Dish" format as Item.Name).
+		// the dish you booked (same "Restaurant - Dish" format as Item.Name) and
+		// carries the building/meal labels used to auto-detect the deployment config.
 		BookedOrderInfo struct {
-			FoodName string `json:"foodName"`
-			MealDate string `json:"mealDate"`
+			FoodName     string `json:"foodName"`
+			MealDate     string `json:"mealDate"`
+			BuildingCode string `json:"buildingCode"`
+			MealBuilding string `json:"mealBuilding"`
+			TimeCode     string `json:"timeCode"`
 		} `json:"bookedOrderInfo"`
 	} `json:"data"`
+}
+
+// PreferenceResp is the mini-program preferences endpoint. Data is itself a
+// JSON-encoded string (the API double-encodes it).
+type PreferenceResp struct {
+	Code int    `json:"code"`
+	Data string `json:"data"`
+}
+
+// BuildingPref is the decoded CURRENT_BUILDING_KEY preference — the user's selected
+// canteen building. MdmCode is the buildingCode used by calendar/menu/submit;
+// RegionName is its display name (e.g. "Guoco Tower").
+type BuildingPref struct {
+	MdmCode    string `json:"mdmCode"`
+	RegionName string `json:"regionName"`
 }
 
 type CalendarDate struct {

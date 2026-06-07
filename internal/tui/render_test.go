@@ -9,7 +9,7 @@ func TestDashboardViewRenders(t *testing.T) {
 	m := New()
 	m.state = State{LoggedIn: true, FavCount: 5, Building: "Example Tower", NotifyCh: "lark"}
 	out := m.View()
-	if !strings.Contains(out, "bytecanteen") || !strings.Contains(out, "Favorites & menu") {
+	if !strings.Contains(out, "nybble") || !strings.Contains(out, "Favorites & menu") {
 		t.Fatalf("dashboard view missing expected content")
 	}
 }

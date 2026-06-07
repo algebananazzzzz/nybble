@@ -3,7 +3,7 @@ package run
 import (
 	"testing"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/menu"
+	"github.com/algebananazzzzz/nybble/internal/menu"
 )
 
 func TestWeekdayCode(t *testing.T) {
@@ -85,7 +85,7 @@ func TestIdentityFromUserInfo(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if id.OpenID != "ou_a" || id.TenantEmpID != "tk#999" {
+	if id.OpenID != "ou_a" || id.UnionID != "on_b" || id.TenantEmpID != "tk#999" {
 		t.Fatalf("bad identity: %+v", id)
 	}
 }
