@@ -29,6 +29,7 @@ func main() {
 		Short:   "Automatically book your canteen lunch from your preferences",
 		Version: fmt.Sprintf("%s (commit %s, built %s)", version, commit, date),
 		Run: func(cmd *cobra.Command, args []string) {
+			tui.Version = version
 			if err := tui.Run(); err != nil {
 				fmt.Fprintln(os.Stderr, err)
 				os.Exit(1)

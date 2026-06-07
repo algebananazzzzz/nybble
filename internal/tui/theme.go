@@ -97,6 +97,8 @@ const (
 	dot        = "·"
 	checkGlyph = "✓"
 	crossGlyph = "✗"
+	statusDot  = "●" // filled login badge (logged in / out)
+	openDot    = "○" // hollow badge while the session check is in flight
 )
 
 // okNote / errNote are the shared success / failure status indicators used

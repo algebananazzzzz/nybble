@@ -70,13 +70,13 @@ func header(w int, st State) string {
 	brand := appTitleStyle.Render("nybble") + brandStyle.Render("  ·  canteen lunch autobooker")
 
 	var status string
-	if st.Loading {
-		status = metaStyle.Render("checking session…")
-	} else {
-		status = errStyle.Render("logged out")
-		if st.LoggedIn {
-			status = okStyle.Render("logged in")
-		}
+	switch {
+	case st.Loading:
+		status = metaStyle.Render(openDot + " checking session…")
+	case st.LoggedIn:
+		status = okStyle.Render(statusDot + " logged in")
+	default:
+		status = errStyle.Render(statusDot + " logged out")
 	}
 
 	top := spread(brand, status, w)

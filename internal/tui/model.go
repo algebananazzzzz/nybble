@@ -29,7 +29,12 @@ const (
 	scrSettings
 	scrSchedule
 	scrReauth
+	scrAbout
 )
+
+// Version is the build version shown on the About screen, set from main at
+// startup (GoReleaser stamps it via -ldflags).
+var Version = "dev"
 
 // screenModel is one full-screen view. View renders only the body box; the root
 // supplies header/footer chrome. width/height are the body area in cells.
@@ -130,6 +135,8 @@ func (m Model) navigate(to screen) (tea.Model, tea.Cmd) {
 		c, cmd := newReauth()
 		m.child = c
 		cmds = append(cmds, cmd)
+	case scrAbout:
+		m.child = newAbout(m.state)
 	}
 
 	var szcmd tea.Cmd
