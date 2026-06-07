@@ -3,8 +3,8 @@ package selector
 import (
 	"strings"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/api"
-	"github.com/algebananazzzzz/bytecanteen/internal/menu"
+	"github.com/algebananazzzzz/nybble/internal/api"
+	"github.com/algebananazzzzz/nybble/internal/menu"
 )
 
 func norm(s string) string {
@@ -39,10 +39,18 @@ func matchesFav(name string, favorites []string) bool {
 //	vendor — a favorite from a low-ranked vendor still beats a non-favorite from
 //	the top vendor. Match precedence: exact (normalized) name, then substring.
 //
-//	Tier 2 (fallback): only if NO favorite dish is in stock, pick from the
-//	highest-ranked vendor that has any in-stock dish (unranked vendors last),
-//	taking its most-stocked dish for the best race odds. The vendor comes from the
-//	dish name ("Vendor - Dish"), since the API exposes only the floor as a site.
+//	Tier 2 (fallback): when NO favorite dish is in stock, pick from the
+//	highest-ranked vendor that has any in-stock dish (unranked vendors last). The
+//	vendor comes from the dish name ("Vendor - Dish"), since the API exposes only
+//	the floor as a site. Within a vendor, take the LEAST-stocked in-stock dish: the
+//	scarcest item is the canteen's best signal for the most-wanted one. With no
+//	vendor ranking — or no favorites and no vendors configured at all — every dish
+//	ties on vendor, so this reduces to "the least-stocked dish on the menu".
+//
+// Guarantee: as long as ANY dish is in stock, Choose returns one. It books nothing
+// only when the entire menu is sold out. The retry loop in run.Book re-runs Choose
+// on a fresh menu after a sold-out, so a scarce pick that loses the race falls
+// through to the next-scarcest automatically.
 //
 // Unranked lists in-stock dishes matching no favorite, so callers can prompt a
 // re-rank when the menu changes.
@@ -74,15 +82,9 @@ func Choose(items []api.Item, favorites, vendors []string) Pick {
 		}
 	}
 
-	// Tier 2: vendor fallback — only when there is some ranking signal. With no
-	// favorites and no vendors configured, book nothing rather than grab a random
-	// dish for an unconfigured user.
-	if len(favorites) == 0 && len(vendors) == 0 {
-		return Pick{Unranked: unranked}
-	}
-
-	// rank(name) is the position of the dish's vendor (lower = better),
-	// len(vendors) for any vendor not in the ranking.
+	// Tier 2: vendor fallback. rank(name) is the position of the dish's vendor
+	// (lower = better), len(vendors) for any vendor not in the ranking — so with no
+	// vendors configured every dish ranks equal and the stock tie-break alone decides.
 	rank := func(name string) int {
 		v := norm(menu.Vendor(name))
 		for i, ranked := range vendors {
@@ -106,12 +108,12 @@ func Choose(items []api.Item, favorites, vendors []string) Pick {
 		switch {
 		case ri < rb:
 			best = i
-		case ri == rb && items[i].CurrentStock > items[best].CurrentStock:
+		case ri == rb && items[i].CurrentStock < items[best].CurrentStock:
 			best = i
 		}
 	}
 	if best < 0 {
-		return Pick{Unranked: unranked} // nothing in stock
+		return Pick{Unranked: unranked} // entire menu sold out
 	}
 	return Pick{Item: &items[best], FellBack: true, Unranked: unranked}
 }

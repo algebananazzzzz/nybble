@@ -3,7 +3,7 @@ package selector
 import (
 	"testing"
 
-	"github.com/algebananazzzzz/bytecanteen/internal/api"
+	"github.com/algebananazzzzz/nybble/internal/api"
 )
 
 func items() []api.Item {
@@ -46,9 +46,10 @@ func TestFavoriteBeatsBetterVendor(t *testing.T) {
 	}
 }
 
-func TestVendorFallbackPicksTopVendorMostStock(t *testing.T) {
-	// No favorites in stock → fall back to the highest-ranked vendor, and within
-	// it the most-stocked dish. Vendor is parsed from the dish-name prefix.
+func TestVendorFallbackPicksTopVendorLeastStock(t *testing.T) {
+	// No favorites in stock → fall back to the highest-ranked vendor, and within it
+	// the LEAST-stocked dish (scarcest = the canteen's best guess at most-wanted).
+	// Vendor is parsed from the dish-name prefix.
 	its := []api.Item{
 		{Name: "Corner - Soup", SkuCode: "lo", CurrentStock: 9},
 		{Name: "StarStall - Wrap", SkuCode: "hi1", CurrentStock: 2},
@@ -58,24 +59,37 @@ func TestVendorFallbackPicksTopVendorMostStock(t *testing.T) {
 	if got.Item == nil || !got.FellBack {
 		t.Fatalf("expected vendor fallback, got %+v", got)
 	}
-	if got.Item.SkuCode != "hi2" {
-		t.Fatalf("top vendor's most-stocked dish should win, got %+v", got.Item)
+	if got.Item.SkuCode != "hi1" {
+		t.Fatalf("top vendor's least-stocked dish should win, got %+v", got.Item)
 	}
 }
 
-func TestNoFavoriteFallsBackToMostStocked(t *testing.T) {
+func TestNoFavoriteFallsBackToLeastStocked(t *testing.T) {
 	// Favorites configured but none in stock, no vendor ranking → fall back to the
-	// most-stocked dish (chickenjoy, 5).
+	// least-stocked in-stock dish (rendang c=3; chickenjoy has 5).
 	got := Choose(items(), []string{"pizza"}, nil)
-	if got.Item == nil || !got.FellBack || got.Item.SkuCode != "b" {
-		t.Fatalf("want most-stocked fallback (b), got %+v", got)
+	if got.Item == nil || !got.FellBack || got.Item.SkuCode != "c" {
+		t.Fatalf("want least-stocked fallback (c), got %+v", got)
 	}
 }
 
-func TestUnconfiguredBooksNothing(t *testing.T) {
-	// No favorites AND no vendors → don't grab a random dish.
-	if got := Choose(items(), nil, nil); got.Item != nil {
-		t.Fatalf("unconfigured user should book nothing, got %+v", got.Item)
+func TestUnconfiguredBooksLeastStocked(t *testing.T) {
+	// No favorites AND no vendors → still book something so the user isn't left
+	// hungry: the least-stocked in-stock dish (rendang c=3; chickenjoy=5).
+	got := Choose(items(), nil, nil)
+	if got.Item == nil || !got.FellBack || got.Item.SkuCode != "c" {
+		t.Fatalf("unconfigured should book least-stocked (c), got %+v", got)
+	}
+}
+
+func TestAllSoldOutBooksNothing(t *testing.T) {
+	// The only no-book case: every dish on the menu is sold out.
+	its := []api.Item{
+		{Name: "A - X", SkuCode: "x", CurrentStock: 0},
+		{Name: "B - Y", SkuCode: "y", CurrentStock: 0},
+	}
+	if got := Choose(its, []string{"x"}, []string{"A"}); got.Item != nil {
+		t.Fatalf("all sold out → book nothing, got %+v", got.Item)
 	}
 }
 
