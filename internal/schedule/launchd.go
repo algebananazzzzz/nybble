@@ -33,6 +33,8 @@ const Label = "com.algebananazzzzz.nybble"
 
 var xmlEscaper = strings.NewReplacer("&", "&amp;", "<", "&lt;", ">", "&gt;", `"`, "&quot;", "'", "&apos;")
 
+var xmlUnescaper = strings.NewReplacer("&amp;", "&", "&lt;", "<", "&gt;", ">", "&quot;", `"`, "&apos;", "'")
+
 // jobEnvKeys are the NYBBLE_* variables captured from the installing shell into the
 // scheduled job. A launchd run has none of the shell's environment, so without these the
 // `book` run hits the hard "NYBBLE_API_BASE not set" error and never books.
@@ -81,7 +83,7 @@ func Plist(bin, pathEnv string, env map[string]string, weekday, hh, mm int) stri
   </dict>
   <key>StandardOutPath</key><string>%s/nybble.log</string>
   <key>StandardErrorPath</key><string>%s/nybble.err</string>
-</dict></plist>`, Label, bin, envXML.String(), weekday, hh, mm, logDir(), logDir())
+</dict></plist>`, Label, xmlEscaper.Replace(bin), envXML.String(), weekday, hh, mm, logDir(), logDir())
 }
 
 // jobPath is the PATH baked into the scheduled job. launchd's default PATH is minimal,
@@ -167,6 +169,33 @@ func WakeCancelCmd() *exec.Cmd {
 func Installed() bool {
 	_, err := os.Stat(plistPath())
 	return err == nil
+}
+
+// parseProgram extracts the job binary (the first ProgramArguments string) from a plist
+// rendered by Plist. Empty when the shape isn't recognized.
+func parseProgram(plist string) string {
+	const marker = "<array><string>"
+	i := strings.Index(plist, marker)
+	if i < 0 {
+		return ""
+	}
+	rest := plist[i+len(marker):]
+	j := strings.Index(rest, "</string>")
+	if j < 0 {
+		return ""
+	}
+	return xmlUnescaper.Replace(rest[:j])
+}
+
+// InstalledBin returns the binary the installed LaunchAgent runs, or "" when no job is
+// installed. A mismatch with the current executable means the plist went stale (the
+// binary moved or was renamed) and the job must be reinstalled or it will never run.
+func InstalledBin() string {
+	b, err := os.ReadFile(plistPath())
+	if err != nil {
+		return ""
+	}
+	return parseProgram(string(b))
 }
 
 // subMinutes returns hh:mm minus d minutes, wrapping within a 24h day. It does not roll

@@ -34,6 +34,26 @@ func TestPlistInjectsEndpointEnv(t *testing.T) {
 	}
 }
 
+// parseProgram must recover the job binary from a rendered plist — including when the
+// path needs XML escaping — so a stale plist (binary moved/renamed) is detectable.
+func TestParseProgramRoundTrip(t *testing.T) {
+	for _, bin := range []string{
+		"/Users/me/.local/bin/nybble",
+		"/Users/o'brien/tools & bins/nybble",
+	} {
+		p := Plist(bin, "/usr/bin", nil, 4, 9, 55)
+		if got := parseProgram(p); got != bin {
+			t.Errorf("parseProgram = %q, want %q", got, bin)
+		}
+	}
+}
+
+func TestParseProgramEmptyOnGarbage(t *testing.T) {
+	if got := parseProgram("not a plist"); got != "" {
+		t.Errorf("parseProgram on garbage = %q, want empty", got)
+	}
+}
+
 func TestEnvForJobSkipsUnset(t *testing.T) {
 	t.Setenv("NYBBLE_API_BASE", "https://host.example.com/app")
 	t.Setenv("NYBBLE_LOGIN_URL", "")

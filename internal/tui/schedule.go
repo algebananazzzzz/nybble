@@ -214,7 +214,11 @@ func (s *scheduleScreen) apply() tea.Cmd {
 		s.err, s.phase = err, schedDone
 		return nil
 	}
-	s.op = scheduleAction(s.wasOn, s.enable, timingKey(s.cfg) != s.prevTiming)
+	bin, _ := os.Executable()
+	// A stale plist (the binary moved or was renamed since install) counts as a timing
+	// change: launchd would silently fail to spawn it, so force a reinstall.
+	binMoved := s.wasOn && bin != "" && schedule.InstalledBin() != bin
+	s.op = scheduleAction(s.wasOn, s.enable, timingKey(s.cfg) != s.prevTiming || binMoved)
 
 	switch s.op {
 	case opNoop:
@@ -228,7 +232,6 @@ func (s *scheduleScreen) apply() tea.Cmd {
 		s.phase = schedApplying
 		return tea.ExecProcess(schedule.WakeCancelCmd(), func(e error) tea.Msg { return wakeDoneMsg{e} })
 	default: // opInstall / opReapply
-		bin, _ := os.Executable()
 		wd, hh, mm, err := schedule.LocalFire(s.cfg.Schedule.Weekday, s.cfg.Schedule.Hour, s.cfg.Schedule.Minute, s.cfg.Schedule.TZ, time.Now())
 		if err != nil {
 			s.err, s.phase = err, schedDone
